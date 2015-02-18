@@ -1,0 +1,38 @@
+<!-- Donglin: we dont need a navbar on top. -->
+
+<!-- read more on: http://docs.appgyver.com/supersonic/guides/ui/components/#forms -->
+<form class="bar bar-header item-input-inset">
+	<label class="item-input-wrapper">
+		<input type="search" name="search" id="search" placeholder="Search by Class Code">
+		<i class="icon super-ios7-search placeholder-icon"></i>
+	</label>
+</form>
+
+<div class="padding" ng-controller="SelectClassController">
+	<!-- Select School First -->
+	<div class="list">
+		<label class="item item-input item-select">
+			<div class="input-label">School</div>
+			<!-- Having ng-model set to null will create an empty select entry. -->
+			<!-- TODO bug: first loaded the select bar, when pick the school, it will show the school next to the one selected. -->
+			<select 
+				ng-model="selectedSchool" 
+				ng-options="school as school.value for school in schools"					
+				ng-change="changeSchool()">
+            </select>
+		</label>		
+	</div>
+	
+	<!-- Select Department Here -->
+	<div class="list">
+		<label class="item item-input item-select">
+			<div class="input-label">School</div>
+    
+			<select>
+				<option selected>Select by School</option>
+				<option ng-repeat="school in schools">{{school}}</option>
+			</select>
+		</label>
+	</div>
+</div>
+

@@ -1,0 +1,460 @@
+#%RAML 0.8
+title: Steroids Data
+mediaType: application/json
+baseUri: https://rest-api.appgyver.com/v1/
+
+traits:
+  - securedBySteroidsApiKey:
+      headers:
+        steroidsApiKey:
+          type: string
+          example: exampleapikey
+          default: 8a047f37f3668c98272081d4bed18d471103778423fa68ae99539936c2612f1b
+        steroidsAppId:
+          type: integer
+          example: 1234
+          default: 45965
+
+
+resourceTypes:
+  - dolan_db_collection:
+      usage: This resourceType should be used for any collection of items
+      is: [ securedBySteroidsApiKey ]
+      get:
+        description: |
+          {
+            "action": "collection"
+          }
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "objects"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_collection # e.g cars
+      post:
+        description: |
+          {
+            "action": "create",
+            "rootKey": "object"
+          }
+        body:
+          application/json:
+            schema: <<resourcePathName>>_member
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "object"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_member # e.g. car
+
+  - dolan_db_member:
+      usage: This resourceType should be used for any built.io item
+      is: [ securedBySteroidsApiKey ]
+      get:
+        description: |
+          {
+            "action": "find"
+          }
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "object"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_member # e.g. car
+      put:
+        description: |
+          {
+            "action": "update",
+            "rootKey": "object"
+          }
+        body:
+          application/json:
+            schema: <<resourcePathName>>_member
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "object"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_member
+      delete:
+        description: |
+          {
+            "action": "destroy"
+          }
+        responses:
+          200:
+
+
+/school:
+  description: |
+    {
+      "resourceName": "school",
+      "identifierKey": "SOC_SCHOOL_CODE"
+    }
+  get:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "collection"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","title":"school collection","type":"array","items":{"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical school representation","properties":{"SOC_SCHOOL_CODE":{"type":"string"},"SOC_SCHOOL_DESCRIPTION":{"type":"string"},"SOC_DEPARTMENT_CODE":{"type":"array"}},"required":[]}}
+  
+  post:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "create"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical school representation","properties":{"SOC_SCHOOL_CODE":{"type":"string"},"SOC_SCHOOL_DESCRIPTION":{"type":"string"},"SOC_DEPARTMENT_CODE":{"type":"array"}},"required":[]}
+  
+
+  /{id}:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "find"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical school representation","properties":{"SOC_SCHOOL_CODE":{"type":"string"},"SOC_SCHOOL_DESCRIPTION":{"type":"string"},"SOC_DEPARTMENT_CODE":{"type":"array"}},"required":[]}
+    
+    put:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "update"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical school representation","properties":{"SOC_SCHOOL_CODE":{"type":"string"},"SOC_SCHOOL_DESCRIPTION":{"type":"string"},"SOC_DEPARTMENT_CODE":{"type":"array"}},"required":[]}
+    
+    delete:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "destroy"
+        }
+    
+      responses:
+        200:
+
+/CourseFourteenFall:
+  description: |
+    {
+      "resourceName": "CourseFourteenFall",
+      "identifierKey": "COURSE_ID"
+    }
+  get:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "collection"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","title":"CourseFourteenFall collection","type":"array","items":{"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical CourseFourteenFall representation","properties":{"COURSE_ID":{"type":"integer"},"SIS_COURSE_ID":{"type":"string"},"TITLE":{"type":"string"},"MIN_UNITS":{"type":"string"},"MAX_UNITS":{"type":"string"},"TOTAL_MAX_UNITS":{"type":"string"},"DESCRIPTION":{"type":"string"},"DIVERSITY_FLAG":{"type":"string"},"EFFECTIVE_TERM_CODE":{"type":"string"},"V_SOC_SECTION":{"type":"array"}},"required":[]}}
+  
+  post:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "create"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical CourseFourteenFall representation","properties":{"COURSE_ID":{"type":"integer"},"SIS_COURSE_ID":{"type":"string"},"TITLE":{"type":"string"},"MIN_UNITS":{"type":"string"},"MAX_UNITS":{"type":"string"},"TOTAL_MAX_UNITS":{"type":"string"},"DESCRIPTION":{"type":"string"},"DIVERSITY_FLAG":{"type":"string"},"EFFECTIVE_TERM_CODE":{"type":"string"},"V_SOC_SECTION":{"type":"array"}},"required":[]}
+  
+
+  /{id}:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "find"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical CourseFourteenFall representation","properties":{"COURSE_ID":{"type":"integer"},"SIS_COURSE_ID":{"type":"string"},"TITLE":{"type":"string"},"MIN_UNITS":{"type":"string"},"MAX_UNITS":{"type":"string"},"TOTAL_MAX_UNITS":{"type":"string"},"DESCRIPTION":{"type":"string"},"DIVERSITY_FLAG":{"type":"string"},"EFFECTIVE_TERM_CODE":{"type":"string"},"V_SOC_SECTION":{"type":"array"}},"required":[]}
+    
+    put:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "update"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical CourseFourteenFall representation","properties":{"COURSE_ID":{"type":"integer"},"SIS_COURSE_ID":{"type":"string"},"TITLE":{"type":"string"},"MIN_UNITS":{"type":"string"},"MAX_UNITS":{"type":"string"},"TOTAL_MAX_UNITS":{"type":"string"},"DESCRIPTION":{"type":"string"},"DIVERSITY_FLAG":{"type":"string"},"EFFECTIVE_TERM_CODE":{"type":"string"},"V_SOC_SECTION":{"type":"array"}},"required":[]}
+    
+    delete:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "destroy"
+        }
+    
+      responses:
+        200:
+
+/term:
+  description: |
+    {
+      "resourceName": "term",
+      "identifierKey": "TERM_CODE"
+    }
+  get:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "collection"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","title":"term collection","type":"array","items":{"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical term representation","properties":{"TERM_CODE":{"type":"string"},"DESCRIPTION":{"type":"string"},"PRE_REG_START_DATE":{"type":"string"},"PRE_REG_END_DATE":{"type":"string"},"EARLY_REG_START_DATE":{"type":"string"},"EARLY_REG_END_DATE":{"type":"string"},"NORMAL_REG_END_DATE":{"type":"string"},"COMMENCEMENT_DATE":{"type":"string"}},"required":[]}}
+  
+  post:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "create"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical term representation","properties":{"TERM_CODE":{"type":"string"},"DESCRIPTION":{"type":"string"},"PRE_REG_START_DATE":{"type":"string"},"PRE_REG_END_DATE":{"type":"string"},"EARLY_REG_START_DATE":{"type":"string"},"EARLY_REG_END_DATE":{"type":"string"},"NORMAL_REG_END_DATE":{"type":"string"},"COMMENCEMENT_DATE":{"type":"string"}},"required":[]}
+  
+
+  /{id}:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "find"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical term representation","properties":{"TERM_CODE":{"type":"string"},"DESCRIPTION":{"type":"string"},"PRE_REG_START_DATE":{"type":"string"},"PRE_REG_END_DATE":{"type":"string"},"EARLY_REG_START_DATE":{"type":"string"},"EARLY_REG_END_DATE":{"type":"string"},"NORMAL_REG_END_DATE":{"type":"string"},"COMMENCEMENT_DATE":{"type":"string"}},"required":[]}
+    
+    put:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "update"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical term representation","properties":{"TERM_CODE":{"type":"string"},"DESCRIPTION":{"type":"string"},"PRE_REG_START_DATE":{"type":"string"},"PRE_REG_END_DATE":{"type":"string"},"EARLY_REG_START_DATE":{"type":"string"},"EARLY_REG_END_DATE":{"type":"string"},"NORMAL_REG_END_DATE":{"type":"string"},"COMMENCEMENT_DATE":{"type":"string"}},"required":[]}
+    
+    delete:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "destroy"
+        }
+    
+      responses:
+        200:
+
+/session:
+  description: |
+    {
+      "resourceName": "session",
+      "identifierKey": "RNR_SESSION_ID"
+    }
+  get:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "collection"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","title":"session collection","type":"array","items":{"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical session representation","properties":{"RNR_SESSION_ID":{"type":"integer"},"TERM_CODE":{"type":"string"},"RNR_SESSION_CODE":{"type":"string"},"CLASS_BEGIN_DATE":{"type":"string"},"LAST_ADD_DROP_DATE":{"type":"string"},"WITHDRAW_W_W_DATE":{"type":"string"},"FINAL_EXAM_BEGIN_DATE":{"type":"string"},"FINAL_EXAM_END_DATE":{"type":"string"},"CLASS_END_DATE":{"type":"string"},"STOP_DATE":{"type":"string"}},"required":[]}}
+  
+  post:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "create"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical session representation","properties":{"RNR_SESSION_ID":{"type":"integer"},"TERM_CODE":{"type":"string"},"RNR_SESSION_CODE":{"type":"string"},"CLASS_BEGIN_DATE":{"type":"string"},"LAST_ADD_DROP_DATE":{"type":"string"},"WITHDRAW_W_W_DATE":{"type":"string"},"FINAL_EXAM_BEGIN_DATE":{"type":"string"},"FINAL_EXAM_END_DATE":{"type":"string"},"CLASS_END_DATE":{"type":"string"},"STOP_DATE":{"type":"string"}},"required":[]}
+  
+
+  /{id}:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "find"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical session representation","properties":{"RNR_SESSION_ID":{"type":"integer"},"TERM_CODE":{"type":"string"},"RNR_SESSION_CODE":{"type":"string"},"CLASS_BEGIN_DATE":{"type":"string"},"LAST_ADD_DROP_DATE":{"type":"string"},"WITHDRAW_W_W_DATE":{"type":"string"},"FINAL_EXAM_BEGIN_DATE":{"type":"string"},"FINAL_EXAM_END_DATE":{"type":"string"},"CLASS_END_DATE":{"type":"string"},"STOP_DATE":{"type":"string"}},"required":[]}
+    
+    put:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "update"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical session representation","properties":{"RNR_SESSION_ID":{"type":"integer"},"TERM_CODE":{"type":"string"},"RNR_SESSION_CODE":{"type":"string"},"CLASS_BEGIN_DATE":{"type":"string"},"LAST_ADD_DROP_DATE":{"type":"string"},"WITHDRAW_W_W_DATE":{"type":"string"},"FINAL_EXAM_BEGIN_DATE":{"type":"string"},"FINAL_EXAM_END_DATE":{"type":"string"},"CLASS_END_DATE":{"type":"string"},"STOP_DATE":{"type":"string"}},"required":[]}
+    
+    delete:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "destroy"
+        }
+    
+      responses:
+        200:
+
+

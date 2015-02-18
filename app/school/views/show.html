@@ -1,0 +1,32 @@
+<div ng-controller="ShowController">
+  <super-navbar>
+    <super-navbar-title>
+      Show
+    </super-navbar-title>
+  </super-navbar>
+
+  <div class="padding">
+    <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+    <div ng-hide="showSpinner">
+      <h2 ng-bind="school['SOC_SCHOOL_CODE']"></h2>
+      
+      
+      
+       <p>SOC_SCHOOL_DESCRIPTION: <span ng-bind="school['SOC_SCHOOL_DESCRIPTION']"></span></p> 
+      
+       <p>SOC_DEPARTMENT_CODE: <span ng-bind="school['SOC_DEPARTMENT_CODE']"></span></p> 
+      
+
+
+      <super-modal-show location="school#edit?id={{ school.id }}">
+        <button class="button button-block button-positive">
+          Edit
+        </button>
+      </super-modal-show>
+
+      <button ng-click="remove(school.id)" class="button button-block button-negative">
+        Remove
+      </button>
+    </div>
+  </div>
+</div>

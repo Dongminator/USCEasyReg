@@ -1,0 +1,31 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+    <super-navbar-title>
+      School Index
+    </super-navbar-title>
+  </super-navbar>
+
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+    <ul class="list" ng-hide="schools.length == 0">
+
+      <super-navigate location="school#show" data-params-id="{{ school.id }}" ng-repeat="school in schools">
+        <li class="item item-icon-right">
+          <span ng-bind="school['SOC_SCHOOL_CODE']"></span>
+          <i class="icon super-ios7-arrow-right"></i>
+        </li>
+      </super-navigate>
+
+    </ul>
+
+    <h4 ng-show="schools.length == 0" class="assertive padding">
+      No schools found. Create one?
+    </h4>
+
+    <super-modal-show location="school#new">
+      <button class="button button-full button-positive">
+        Create a new school
+      </button>
+    </super-modal-show>
+  </div>
+</div>
