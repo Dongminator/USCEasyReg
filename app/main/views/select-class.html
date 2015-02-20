@@ -26,12 +26,13 @@
 	<!-- Select Department Here -->
 	<div class="list">
 		<label class="item item-input item-select">
-			<div class="input-label">School</div>
+			<div class="input-label">Department</div>
     
-			<select>
-				<option selected>Select by School</option>
-				<option ng-repeat="school in schools">{{school}}</option>
-			</select>
+			<select 
+				ng-model="selectedDept" 
+				ng-options="school as school.value for school in schools"					
+				ng-change="changeSchool()">
+            </select>
 		</label>
 	</div>
 </div>

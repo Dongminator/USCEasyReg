@@ -32,13 +32,26 @@ angular
     	
     	// after school is selected, send GET request to get departments of this school
     	// http://petri.esd.usc.edu/socAPI/Schools/[DEPARTMENT_CODE]
-    	var queryUrl = "http://www.donglinpu.me/webreg/";//+ $scope.selectedSchool.code;
-//    	var queryUrl = "http://petri.esd.usc.edu/socAPI/Schools/" + $scope.selectedSchool.code;
+//    	var queryUrl = "http://www.donglinpu.me/webreg/Schools/" + $scope.selectedSchool.code;
+    	var queryUrl = "http://petri.esd.usc.edu/socAPI/Schools/" + $scope.selectedSchool.code;
     	supersonic.logger.debug("Querying... " + queryUrl);
     	
     	$http.get(queryUrl).
     	  success(function(data, status, headers, config) {
-    		  supersonic.logger.debug( data );
+    		  supersonic.logger.debug("data:"+data[0]);
+    		  
+    		  
+    		  $scope.departments = [];
+    		  var departmentObjects = new Array();
+    		  for (i = 0; i < allDepartments.length; i++) {
+    			  // id is SOC_SCHOOL_CODE
+    			  departmentObjects[i] = {"code" : allDepartments[i].SOC_SCHOOL_CODE, "value" : allDepartments[i].SOC_SCHOOL_DESCRIPTION};
+    	    	supersonic.logger.debug(allSchools[i].id + " : " + allSchools[i].SOC_SCHOOL_DESCRIPTION + " : " + allSchools[i].SOC_DEPARTMENT_CODE);
+    	    	}
+    	    	
+    	    	$scope.schools = schoolObjects;
+    	    	$scope.selectedSchool = schoolObjects[0];
+    		  
     	    // this callback will be called asynchronously
     	    // when the response is available
     	  }).
@@ -48,12 +61,18 @@ angular
     	    // or server returns response with an error status.
     	  });
     	
-    	
-//    	$.get( queryUrl, function( data ) {
-//    		supersonic.logger.debug( "got data");
-//    	});
-    	
-//    	getUrl(queryUrl);
+    	// usign ajax
+//    	$.ajax({
+//  		  url: "http://petri.esd.usc.edu/socAPI/Schools/?callback=JSON_CALLBACK",
+//  		success: function(data, status){
+//			  supersonic.logger.debug( "data: " + data);
+//		  },
+//		  error: function(data, status){
+//  			  supersonic.logger.debug( "Error: " + status);
+//  		  },
+//  		  dataType: "jsonp"
+//  		});
+
     	supersonic.logger.debug("Querying executed!");
     	
     	
@@ -61,20 +80,5 @@ angular
     
     
   });
-
-
-function getUrl (queryUrl) {
-	$.get( queryUrl, function( data ) {
-		supersonic.logger.debug( "got data");
-	});
-	
-//	$.ajax({
-//		  url: queryUrl,
-//		  success: function(data){
-//			  supersonic.logger.debug( "got data");
-//		  },
-//		  dataType: jsonp
-//		});
-}
 
 

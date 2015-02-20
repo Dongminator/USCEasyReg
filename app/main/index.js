@@ -33,21 +33,3 @@ function openDrawer(option){
 }
 
 
-function setNavBar () {
-	var textButton = new steroids.buttons.NavigationBarButton();
-	textButton.title = "Right"
-	textButton.onTap = function() { alert("Text button tapped"); }
-
-	var imageButton = new steroids.buttons.NavigationBarButton();
-	imageButton.imagePath = "/icons/menu.svg"
-	imageButton.imageAsOriginal = "true"
-	imageButton.onTap = function() { alert("Image button tapped"); }
-	imageButton.styleClass = "nav-button";
-
-	steroids.view.navigationBar.update({
-	  buttons: {
-	    right: [imageButton, textButton]
-	  }
-	})
-}
-
