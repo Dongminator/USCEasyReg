@@ -30,8 +30,25 @@
     
 			<select 
 				ng-model="selectedDept" 
-				ng-options="school as school.value for school in schools"					
-				ng-change="changeSchool()">
+				ng-options="dept as dept.code + ' - ' + dept.value for dept in departments"					
+				ng-change="changeDept()">
+            </select>
+		</label>
+	</div>
+	
+	<!-- Select Days: Monday, Tuesday,  -->
+	<div class="list">
+		<label class="item item-input item-select">
+			<select>
+			<option>l</option>
+			<option>lk</option>
+			<option>lh</option>
+            </select>
+            <select>
+            
+			<option>2</option>
+			<option>3k</option>
+			<option>4h</option>
             </select>
 		</label>
 	</div>

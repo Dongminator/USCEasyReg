@@ -38,19 +38,20 @@ angular
     	
     	$http.get(queryUrl).
     	  success(function(data, status, headers, config) {
-    		  supersonic.logger.debug("data:"+data[0]);
+    		  supersonic.logger.debug("data:" + data[0].SOC_SCHOOL_CODE + " " + data[0].SOC_SCHOOL_DESCRIPTION + " " + data[0].SOC_DEPARTMENT_CODE.length);
     		  
     		  
     		  $scope.departments = [];
     		  var departmentObjects = new Array();
+    		  var allDepartments = data[0].SOC_DEPARTMENT_CODE;
     		  for (i = 0; i < allDepartments.length; i++) {
     			  // id is SOC_SCHOOL_CODE
-    			  departmentObjects[i] = {"code" : allDepartments[i].SOC_SCHOOL_CODE, "value" : allDepartments[i].SOC_SCHOOL_DESCRIPTION};
-    	    	supersonic.logger.debug(allSchools[i].id + " : " + allSchools[i].SOC_SCHOOL_DESCRIPTION + " : " + allSchools[i].SOC_DEPARTMENT_CODE);
+    			  departmentObjects[i] = {"code" : allDepartments[i].SOC_DEPARTMENT_CODE, "value" : allDepartments[i].SOC_DEPARTMENT_DESCRIPTION};
+    	    	  supersonic.logger.debug(allDepartments[i].SOC_DEPARTMENT_CODE + " : " + allDepartments[i].SOC_DEPARTMENT_DESCRIPTION);
     	    	}
     	    	
-    	    	$scope.schools = schoolObjects;
-    	    	$scope.selectedSchool = schoolObjects[0];
+    	    	$scope.departments = departmentObjects;
+    	    	$scope.selectedDept = departmentObjects[0];
     		  
     	    // this callback will be called asynchronously
     	    // when the response is available
@@ -61,23 +62,13 @@ angular
     	    // or server returns response with an error status.
     	  });
     	
-    	// usign ajax
-//    	$.ajax({
-//  		  url: "http://petri.esd.usc.edu/socAPI/Schools/?callback=JSON_CALLBACK",
-//  		success: function(data, status){
-//			  supersonic.logger.debug( "data: " + data);
-//		  },
-//		  error: function(data, status){
-//  			  supersonic.logger.debug( "Error: " + status);
-//  		  },
-//  		  dataType: "jsonp"
-//  		});
-
     	supersonic.logger.debug("Querying executed!");
-    	
-    	
     };
     
+    
+    $scope.changeDept = function () {
+    	supersonic.logger.debug( $scope.selectedDept.code + " " + $scope.selectedDept.value);
+    }
     
   });
 
