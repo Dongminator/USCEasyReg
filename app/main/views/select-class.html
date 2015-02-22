@@ -9,8 +9,10 @@
 </form>
 
 <div class="padding" ng-controller="SelectClassController">
-	<!-- Select School First -->
 	<div class="list">
+	
+	
+		<!-- Select School First -->
 		<label class="item item-input item-select">
 			<div class="input-label">School</div>
 			<!-- Having ng-model set to null will create an empty select entry. -->
@@ -20,11 +22,10 @@
 				ng-options="school as school.value for school in schools"					
 				ng-change="changeSchool()">
             </select>
-		</label>		
-	</div>
-	
-	<!-- Select Department Here -->
-	<div class="list">
+		</label>	
+		
+		
+		<!-- Select Department Here -->
 		<label class="item item-input item-select">
 			<div class="input-label">Department</div>
     
@@ -33,24 +34,59 @@
 				ng-options="dept as dept.code + ' - ' + dept.value for dept in departments"					
 				ng-change="changeDept()">
             </select>
-		</label>
+		</label>	
+		
+		
+		<!-- Select Days: Monday, Tuesday,  -->
+		<a class="item item-icon-right" ng-click="navigate('select-days')">
+	      Select Days
+	      <i class="icon icon-accessory super-chevron-right"></i>
+	    </a>
+		
+		<!-- Select Time -->
+		<a class="item item-icon-right">
+			Select Time
+			<i class="icon super-arrow-right-b"></i>
+		</a>
+	
+		<!-- Select Code -->
+		<a class="item item-icon-right">
+			Select Code
+			<i class="icon super-arrow-right-b"></i>
+		</a>
+		
+		
+		<!-- Select Unit -->
+		<a class="item item-icon-right">
+			Select Units
+			<i class="icon super-arrow-right-b"></i>
+		</a>
+			
 	</div>
 	
-	<!-- Select Days: Monday, Tuesday,  -->
+	
+	
+	
+	<!-- display classes -->
 	<div class="list">
-		<label class="item item-input item-select">
-			<select>
-			<option>l</option>
-			<option>lk</option>
-			<option>lh</option>
-            </select>
-            <select>
-            
-			<option>2</option>
-			<option>3k</option>
-			<option>4h</option>
-            </select>
-		</label>
+		<!-- filter:"advanced" will match all items that have the string advanced -->
+		<!-- filter:{} will match  -->
+	
+		<div ng-repeat="course in courses | filter:isCourseEnabled">
+			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}">
+	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
+	    		&nbsp;
+	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
+		  	</div>
+		  	
+		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)">
+		  		{{section.SECTION_ID}} DAY: {{section.DAY}}
+		  	</div>
+  		</div>
+  		
+  		
 	</div>
+	
+
 </div>
 

@@ -16,7 +16,7 @@ module.exports =
 
   # Donglin: since we dont use tabs, we only need the rootView.
   rootView:
-  	location: "main#calendar"
+  	location: "main#select-class"
 
   # Donglin: load all views (we only have about 3 views)
   preloads: [
@@ -27,6 +27,10 @@ module.exports =
     {
       id: "calendar"
       location: "main#calendar"
+    }
+    {
+      id: "select-days"
+      location: "main#select-days"
     }
   ]
   

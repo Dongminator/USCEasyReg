@@ -1,0 +1,172 @@
+[
+    {
+        "COURSE_ID": 20923,
+        "SIS_COURSE_ID": "PUBD-512",
+        "TITLE": "CulturalDiplomacy",
+        "DESCRIPTION": "Providesoverviewofformalculturaldiplomacyandconcentrateson",
+        "sections": [
+            {
+                "SECTION_ID": 17733,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "14: 00",
+                "END_TIME": "16: 50",
+                "DAY": "T",
+                "LOCATION": "ASC328",
+                "INSTRUCTOR": "Cull, Nick",
+                "SEATS": 20
+            }
+        ]
+    },
+    {
+        "COURSE_ID": 30845,
+        "SIS_COURSE_ID": "PUBD-520",
+        "TITLE": "RegionalStudiesinPublicDiplomacy",
+        "DESCRIPTION": "In-depthexaminationofhistorical,
+        political,
+        economic,
+        cultural",
+        "sections": [
+            {
+                "SECTION_ID": 17117,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "18: 30",
+                "END_TIME": "21: 20",
+                "DAY": "W",
+                "LOCATION": "ASC230",
+                "INSTRUCTOR": null,
+                "SEATS": 18
+            },
+            {
+                "SECTION_ID": 17084,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "18: 30",
+                "END_TIME": "21: 20",
+                "DAY": "T",
+                "LOCATION": "ASCG38",
+                "INSTRUCTOR": "Wang,
+                Jay",
+                "SEATS": 16
+            }
+        ]
+    },
+    {
+        "COURSE_ID": 33750,
+        "SIS_COURSE_ID": "PUBD-522",
+        "TITLE": "HardPower,
+        SoftPowerandSmartPower",
+        "DESCRIPTION": "Institutionalandculturalperspectivesoninstrumentsofstate",
+        "sections": [
+            {
+                "SECTION_ID": 17969,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "14: 00",
+                "END_TIME": "16: 50",
+                "DAY": "W",
+                "LOCATION": "ANN209",
+                "INSTRUCTOR": "Atkinson,
+                Carol",
+                "SEATS": 16
+            }
+        ]
+    },
+    {
+        "COURSE_ID": 4824,
+        "SIS_COURSE_ID": "PUBD-524",
+        "TITLE": "ThePublicDiplomacyofTrade",
+        "DESCRIPTION": "Publicdiplomacy'sroleinshapingideasabouttradeanddevelopmentandincreatingtradeagreements,
+        andtheuseoftradeagreementsaspublicdiplomacy.",
+        "sections": [
+            {
+                "SECTION_ID": 17946,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "09: 00",
+                "END_TIME": "11: 50",
+                "DAY": "H",
+                "LOCATION": "ASC230",
+                "INSTRUCTOR": "Starr,
+                Pamela",
+                "SEATS": 18
+            }
+        ]
+    },
+    {
+        "COURSE_ID": 16630,
+        "SIS_COURSE_ID": "PUBD-526",
+        "TITLE": "PublicDiplomacyEvaluation",
+        "DESCRIPTION": "CriticalexaminationofchallengesandbenefitsofmeasuringPublicDiplomacy'simpact;terminologyandmechanicsofevaluation,
+        themeasurementcommunity,
+        andvaryingapproachesforevaluation",
+        "sections": [
+            {
+                "SECTION_ID": 16689,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "14: 00",
+                "END_TIME": "16: 50",
+                "DAY": "H",
+                "LOCATION": "ANN209",
+                "INSTRUCTOR": "Banks,
+                Robert",
+                "SEATS": 18
+            }
+        ]
+    },
+    {
+        "COURSE_ID": 17693,
+        "SIS_COURSE_ID": "PUBD-590",
+        "TITLE": "DirectedResearch",
+        "DESCRIPTION": "Researchleadingtothemaster'sdegree.Maximumunitswhichmay",
+        "sections": [
+            {
+                "SECTION_ID": 16291,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "TBA",
+                "END_TIME": "TBA",
+                "DAY": null,
+                "LOCATION": "OFFICE",
+                "INSTRUCTOR": "Seib,
+                Philip",
+                "SEATS": 10
+            },
+            {
+                "SECTION_ID": 16332,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "TBA",
+                "END_TIME": "TBA",
+                "DAY": null,
+                "LOCATION": "OFFICE",
+                "INSTRUCTOR": null,
+                "SEATS": 10
+            },
+            {
+                "SECTION_ID": 16346,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "TBA",
+                "END_TIME": "TBA",
+                "DAY": null,
+                "LOCATION": "OFFICE",
+                "INSTRUCTOR": "Cull,
+                Nick",
+                "SEATS": 10
+            }
+        ]
+    },
+    {
+        "COURSE_ID": 28727,
+        "SIS_COURSE_ID": "PUBD-596",
+        "TITLE": "PracticuminPublicDiplomacyResearch",
+        "DESCRIPTION": "Developmentandproductionoforiginalresearch-basedprojectin",
+        "sections": [
+            {
+                "SECTION_ID": 17544,
+                "TYPE": "Lecture",
+                "BEGIN_TIME": "TBA",
+                "END_TIME": "TBA",
+                "DAY": null,
+                "LOCATION": "OFFICE",
+                "INSTRUCTOR": "Cull,
+                Nick",
+                "SEATS": 30
+            }
+        ]
+    }
+]

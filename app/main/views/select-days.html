@@ -1,0 +1,17 @@
+
+
+<!-- http://docs.appgyver.com/supersonic/guides/ui/components/#radio-buttons -->
+<!-- http://docs.appgyver.com/supersonic/guides/ui/components/#checkbox -->
+<!-- class="padding" removed. because with class="padding", swipe from eft to right will show drawer; without it, it shows previous screen. -->
+<div>
+	<ul class="list" ng-controller="SelectDaysController">
+		<div ng-repeat="day in days">
+			<li class="item item-checkbox">
+				<label class="checkbox">
+					<input type="checkbox" ng-model="day.selected" ng-change="update()">
+				</label>
+	     		{{day.day}}
+	  		</li>
+		</div>
+	</ul>
+</div>
