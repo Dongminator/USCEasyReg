@@ -79,6 +79,7 @@
 	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
 		  	</div>
 		  	
+		  	<!-- TODO onclick => add to drawer -->
 		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)">
 		  		{{section.SECTION_ID}} DAY: {{section.DAY}}
 		  	</div>
