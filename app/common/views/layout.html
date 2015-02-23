@@ -16,6 +16,12 @@
   <script src="/components/angular/angular.js"></script>
   <script src="/components/supersonic/supersonic.js"></script>
   <script src="/components/webcomponentsjs/webcomponents.js"></script>
+  
+  <script src="/components/moment/min/moment.min.js"></script>
+  <script src="/components/jquery/dist/jquery.min.js"></script>
+  <script src="/components/fullcalendar/dist/fullcalendar.js"></script>
+  
+  
 
   <% _.each(yield.modules, function(module) { %>
   <script src="/app/<%= module %>.js"></script>
