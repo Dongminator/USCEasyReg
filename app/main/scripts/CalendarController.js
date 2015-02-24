@@ -22,7 +22,6 @@ $(document).ready(function() {
         slotDuration: '00:15:00',
         weekends: false,
         defaultView: 'agendaWeek',
-        handleWindowResize: false,
         allDaySlot: false,
         minTime: '06:00:00',
         maxTime: '23:00:00',
