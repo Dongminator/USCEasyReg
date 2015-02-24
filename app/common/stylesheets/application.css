@@ -13,4 +13,10 @@
 
 .inlineDisplay {
 	display: inline-block;
+	width:50%;
+}
+
+.inlineDisplayRight {
+	float: right;
+	width: 50%;
 }
