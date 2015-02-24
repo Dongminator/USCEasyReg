@@ -10,11 +10,6 @@ angular.module('main', [
  * TODO should set parameter
  */
 
-function getJson() {
-	var courses = window.localStorage.getItem('EasyReg.interestedCourses');
-    supersonic.logger.debug("Courses: " + courses);
-}
-
 function dismissInitialView () {
 	var animation = supersonic.ui.animate("curlDown");
 	supersonic.ui.initialView.dismiss(animation);
