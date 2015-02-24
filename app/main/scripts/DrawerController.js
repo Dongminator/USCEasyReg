@@ -29,4 +29,11 @@ angular
 	  $scope.isSectionEnabled = function (section) {
 		  return section.isEnabledByDay && section.isEnabledByTime && section.isEnabledByCode && section.isEnabledByUnits;
 	  };
+
+    
+    
+    $scope.getJson = function () {
+    	var courses = window.localStorage.getItem('EasyReg.interestedCourses');
+        supersonic.logger.debug(courses);
+    };
   });

@@ -80,8 +80,8 @@
 		  	</div>
 		  	
 		  	<!-- TODO onclick => add to drawer -->
-		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)">
-		  		{{section.SECTION_ID}} DAY: {{section.DAY}}
+		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)" >
+		  		<a class="item" ng-click="addCourse(course, section)">{{section.SECTION_ID}} DAY: {{section.DAY}}</a>
 		  	</div>
   		</div>
   		

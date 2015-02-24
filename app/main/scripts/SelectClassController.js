@@ -5,6 +5,7 @@ angular
 	  
 	  $scope.run = function () {
 		  supersonic.logger.debug( "a" );
+		  window.localStorage.clear();
 		  if (window.localStorage.getItem('EasyReg.initialized')!==null) {
 			  supersonic.logger.debug( "already set" );
 		  } else {
@@ -109,6 +110,37 @@ angular
 		  filterDay (supersonic, $scope);
 		  supersonic.logger.debug("select-class is now visible");
 	  });
+	  
+	  
+	  $scope.addCourse = function (course, section) {
+		  
+		  var interestedCourses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
+		  var courseAlreadyExist = false;
+		  
+		  supersonic.logger.debug(course.SIS_COURSE_ID + " " + interestedCourses.length);
+		  
+		  for (var cour in interestedCourses) {
+			  var c = interestedCourses[cour];
+			  if (c.SIS_COURSE_ID === course.SIS_COURSE_ID) {
+				  courseAlreadyExist = true;
+				  // update course sections.
+				  break;
+			  }
+		  }
+		  
+		  if (courseAlreadyExist) {
+			  supersonic.logger.debug("course exists. dont push" );
+			  // update course sections
+		  } else {
+			  // add new course to calendar
+			  course.isInterested = true;
+			  section.isInterested = true;
+			  
+			  interestedCourses.push(course);
+			  window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(interestedCourses));
+		  }
+		  
+	  };
   });
 
 /*
@@ -140,7 +172,10 @@ function selectModules (supersonic, $scope, $http) {
 						"isEnabledByDay" : true, 
 						"isEnabledByTime" : true, 
 						"isEnabledByCode" : true, 
-						"isEnabledByUnits" : true
+						"isEnabledByUnits" : true,
+		        		"isInterested": false,
+		        		"isRegistered": false,
+		        		"isConflicted": false
 				};
 	    	  
 				// select select sections for each course
@@ -184,7 +219,10 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 						"isEnabledByDay" : true,
 						"isEnabledByTime" : true,
 						"isEnabledByCode" : true,
-						"isEnabledByUnits" : true
+						"isEnabledByUnits" : true,
+		        		"isInterested": false,
+		        		"isRegistered": false,
+		        		"isConflicted": false
 				};
 			}
 			$scope.courses[index].sections = sectionsObjects;
@@ -217,6 +255,7 @@ function initLocalStorage () {
 	             ]; 
 	window.localStorage.setItem('EasyReg.SelectDaysControllers.days', JSON.stringify(days));
 	window.localStorage.setItem('EasyReg.initialized', true);
+	window.localStorage.setItem('EasyReg.interestedCourses', "[]");
 	
 	
 	// Initialize time
@@ -294,7 +333,7 @@ function filterDay (supersonic, $scope) {
 		}
 	}
 
-	supersonic.logger.debug( JSON.stringify($scope.courses) );
+//	supersonic.logger.debug( JSON.stringify($scope.courses) );
 }
 
 
