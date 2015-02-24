@@ -21,13 +21,11 @@
   <script src="/components/jquery/dist/jquery.min.js"></script>
   <script src="/components/fullcalendar/dist/fullcalendar.js"></script>
   
-  
-
   <% _.each(yield.modules, function(module) { %>
   <script src="/app/<%= module %>.js"></script>
   <% }); %>
 </head>
-<body ng-app="<%= yield.moduleName %>">
+<body ng-app="<%= yield.moduleName %>" class="drawer__background">
 
 <%= yield.view %>
 
