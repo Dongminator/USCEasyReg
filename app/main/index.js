@@ -9,6 +9,12 @@ angular.module('main', [
  * after the checking, we call this function and either direct to login or home (calendar view).
  * TODO should set parameter
  */
+
+function getJson() {
+	var courses = window.localStorage.getItem('EasyReg.interestedCourses');
+    supersonic.logger.debug("Courses: " + courses);
+}
+
 function dismissInitialView () {
 	var animation = supersonic.ui.animate("curlDown");
 	supersonic.ui.initialView.dismiss(animation);
