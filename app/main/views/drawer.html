@@ -14,19 +14,24 @@
 		<!-- filter:{} will match  -->
 	
 		<div ng-repeat="course in courses">
-			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) === true" bgcolor="yellow">
+			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) === true">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
 		  	</div>
-		  	<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) !== true" bgcolor="red">
+		  	<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) !== true">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
 		  	</div>
 		  	<!-- TODO onclick => add to drawer -->
-		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)">
+		  	<div ng-repeat="section in course.sections" ng-show="isGroupShown(course)">
+                <div ng-if="isSectionRegistered(course) === true">
 		  		{{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
+                </div>
+                <div ng-if="isSectionRegistered(course) !== true">
+		  		{{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
+                </div>
 		  	</div>
   		</div>
   		

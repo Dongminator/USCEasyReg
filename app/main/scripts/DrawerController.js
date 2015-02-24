@@ -3,6 +3,13 @@ angular
   .controller('DrawerController', function($scope, supersonic) {
 
     $scope.navbarTitle = "Drawer";
+    var courses;
+    $scope.getJson = function () {
+    	courses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
+        supersonic.logger.debug(courses);
+        $scope.courses = courses;
+    };
+    
     //$scope.courses = "";
      $scope.toggleCourse = function(course) {
 		  if (course.expanded === true) {
@@ -20,20 +27,20 @@ angular
 		  }
 	  };
 	  
+      supersonic.ui.drawers.whenWillShow(function() {
+         $scope.getJson();
+        });
 	 
 	  // filter functions - set isEnabledByDay, isEnabledByTime, isEnabledByCode, isEnabledByUnits
 	  $scope.isCourseRegistered = function(course) {
 		  return course.isRegistered;
 	  };
 	  
-	  $scope.isSectionEnabled = function (section) {
-		  return section.isEnabledByDay && section.isEnabledByTime && section.isEnabledByCode && section.isEnabledByUnits;
+	  $scope.isSectionRegistered = function (section) {
+		  return section.isRegistered;
 	  };
 
     
     
-    $scope.getJson = function () {
-    	var courses = window.localStorage.getItem('EasyReg.interestedCourses');
-        supersonic.logger.debug(courses);
-    };
+ 
   });
