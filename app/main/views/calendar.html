@@ -1,54 +1,4 @@
 <!-- Donglin: we dont need a nav bar on top -->
-<link rel="stylesheet" href="../../../bower_components/fullcalendar/dist/fullcalendar.css">
-<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../../../bower_components/moment/min/moment.min.js"></script>
-<script src="../../../bower_components/fullcalendar/dist/fullcalendar.js"></script>
-<script>
-    $(document).ready(function() {
-
-    // page is now ready, initialize the calendar...
-
-    $('#calendar').fullCalendar({
-        // put your options and callbacks here    
-        header:{
-            left:'',
-            center:'',
-            right:''            
-        },
-        height: 1175,
-        slotDuration: '00:15:00',
-        weekends: false,
-        defaultView: 'agendaWeek',
-        handleWindowResize: false,
-        allDaySlot: false,
-        minTime: '06:00:00',
-        maxTime: '23:00:00',
-        events: [
-            {
-					title: 'Lunch',
-					start: '2015-02-23T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2015-02-24T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2015-02-24T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2015-02-25T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2015-02-26T07:00:00'
-				}
-        ]
-    });
-
-});
-</script>
 
 <style type="text/css">
     .fc-axis span{
@@ -66,7 +16,7 @@
 
 
 
-<div ng-controller="CalendarController" style="background-image: url('calender-source/calender-back.svg');width: 750px; height: 1334px" >
+<div class="padding" ng-controller="CalendarController" style="background-image: url('calender-source/calender-back.svg');width: 750px; height: 1334px" >
     <div style="height: 100px"></div>
     <img style="position: absolute; margin-top: 10px; margin-left: 20px" src="calender-source/3bar.svg"/>
     <img style="position: absolute; margin-left: 500px" src="calender-source/credit.svg"/>
