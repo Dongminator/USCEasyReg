@@ -96,7 +96,7 @@ angular
 	  };
 	  
 	  $scope.isSectionEnabled = function (section) {
-		  return section.isEnabledByDay && section.isEnabledByTime && section.isEnabledByCode && section.isEnabledByUnits;
+		  return section.isEnabledByDay && section.isEnabledByTime && section.isEnabledByUnits;
 	  };
 	  
 	  
@@ -107,8 +107,8 @@ angular
 	  }
 	  
 	  supersonic.ui.views.current.whenVisible(function() {
-		  filterDay (supersonic, $scope);
 		  supersonic.logger.debug("select-class is now visible");
+		  runFilter (supersonic, $scope);
 	  });
 	  
 	  
@@ -218,7 +218,6 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 						"SEATS" : allSections[i].SEATS,
 						"isEnabledByDay" : true,
 						"isEnabledByTime" : true,
-						"isEnabledByCode" : true,
 						"isEnabledByUnits" : true,
 		        		"isInterested": false,
 		        		"isRegistered": false,
@@ -229,7 +228,7 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 			
 			if ($scope.queriedCourses == $scope.totalCourses) {
 				supersonic.logger.debug("All sections of all courses have been retrieved!");
-				filterDay (supersonic, $scope);
+				runFilter (supersonic, $scope);
 			} else {
 //				supersonic.logger.debug("Retrieved: " + $scope.queriedCourses);
 			}
@@ -253,7 +252,34 @@ function initLocalStorage () {
 	             {day: 'Saturday', selected: true, abbre : "U"},
 	             {day: 'Sunday', selected: true, abbre : "N"}
 	             ]; 
+	
+	var hours = [ 
+	             {hour: 'h1', selected: true, start: "00:00", end: "08:00", text: "Start before 08:00", abbre : "h1"}, 
+	             {hour: 'h2', selected: true, start: "08:00", end: "09:00", text: "08:00 - 09:00", abbre : "h2"}, 
+	             {hour: 'h3', selected: true, start: "09:00", end: "10:00", text: "09:00 - 10:00", abbre : "h3"}, 
+	             {hour: 'h4', selected: true, start: "10:00", end: "12:00", text: "10:00 - 12:00", abbre : "h4"}, 
+	             {hour: 'h5', selected: true, start: "12:00", end: "14:00", text: "12:00 - 14:00", abbre : "h5"}, 
+	             {hour: 'h6', selected: true, start: "14:00", end: "16:00", text: "14:00 - 16:00", abbre : "h6"}, 
+	             {hour: 'h7', selected: true, start: "16:00", end: "18:00", text: "16:00 - 18:00", abbre : "h7"}, 
+	             {hour: 'h8', selected: true, start: "18:00", end: "20:00", text: "18:00 - 20:00", abbre : "h8"}, 
+	             {hour: 'h9', selected: true, start: "20:00", end: "22:06", text: "20:00 - 22:00", abbre : "h9"}, 
+	             {hour: 'h10', selected: true, start: "22:06", end: "23:59", text: "End after 22:00", abbre : "h10"}, 
+	             ]; 
+	
+	var levels = [
+	              {level: "1", selected: true, text: "1xx"},
+	              {level: "2", selected: true, text: "2xx"},
+	              {level: "3", selected: true, text: "3xx"},
+	              {level: "4", selected: true, text: "4xx"},
+	              {level: "5", selected: true, text: "5xx"},
+	              {level: "6", selected: true, text: "6xx"},
+	              {level: "7", selected: true, text: "7xx"}
+	              ];
+	
+
 	window.localStorage.setItem('EasyReg.SelectDaysControllers.days', JSON.stringify(days));
+	window.localStorage.setItem('EasyReg.SelectHoursControllers.hours', JSON.stringify(hours));
+	window.localStorage.setItem('EasyReg.SelectLevelsControllers.levels', JSON.stringify(levels));
 	window.localStorage.setItem('EasyReg.initialized', true);
 	window.localStorage.setItem('EasyReg.interestedCourses', "[]");
 	
@@ -267,6 +293,14 @@ function initLocalStorage () {
 	// Initialize Code
 }
 
+
+function runFilter (supersonic, $scope) {
+	filterDay(supersonic, $scope);
+	filterTime(supersonic, $scope);
+	filterLevel(supersonic, $scope); // 1xx, 2xx, 3xx, 4xx, 5xx
+//	filterUnit(supersonic, $scope);
+	
+}
 
 /*
  * BUAD (Marshall School of Business )
@@ -300,7 +334,6 @@ function filterDay (supersonic, $scope) {
 			selectedDays.push(days[day].abbre);
 		}
 	}
-	supersonic.logger.debug( "Filter Days: " + notSelectedDays + " " + selectedDays);
 	
 	for (var c in courses) {
 		course = courses[c];
@@ -332,23 +365,133 @@ function filterDay (supersonic, $scope) {
 			course.isEnabledByDay = true;
 		}
 	}
-
-//	supersonic.logger.debug( JSON.stringify($scope.courses) );
 }
 
 
-function filterTime () {
+function filterTime (supersonic, $scope) {
+	var courses = $scope.courses;
+
+	var notSelectedHours = [];
+	var selectedHours = [];
+	var hours = JSON.parse(window.localStorage.getItem('EasyReg.SelectHoursControllers.hours'));
 	
+	var notSelctedHoursCount = 0;
+	
+	for (var hour in hours) {
+		if ( !hours[hour].selected ) {
+			notSelectedHours.push(hours[hour]);
+			notSelctedHoursCount++;
+		} else {
+			selectedHours.push(hours[hour]);
+		}
+	}
+	
+	for (var c in courses) {
+		course = courses[c];
+	
+		var sections = course.sections;
+		var disableCtr = 0;
+		var enableCtr = 0;
+		outerLoop:
+			for (var s in sections) {
+				var checkedNotSelectedHourCounter = 0;
+				var sectionStartTime = sections[s]["BEGIN_TIME"];
+				var sectionEndTime = sections[s]["END_TIME"];
+				
+				for (var h in notSelectedHours) {
+					var hour = notSelectedHours[h];
+					// hour : {hour: 'h1', selected: true, start: "-", end: "-", text: "Start before 08:00", abbre : "h1"}
+					
+					if ( timeCompare(hour.start, hour.end, sectionStartTime, sectionEndTime) ) {
+						sections[s].isEnabledByTime = false;
+						disableCtr++;
+						continue outerLoop;
+					}
+					checkedNotSelectedHourCounter++;
+					if (notSelctedHoursCount === checkedNotSelectedHourCounter) {
+						sections[s].isEnabledByTime = true;
+					}
+				}      
+			}
+
+		if (disableCtr === sections.length) {
+			course.isEnabledByTime = false;
+		} else {
+			course.isEnabledByTime = true;
+		}
+	}
 }
+
+/**
+ * Compare 
+ * E.g. 00:00 - 08:00 && 07:00 - 09:00 => false
+ * E.g. 08:00 - 12:00 && 07:00 - 09:00 => false
+ * E.g. 12:00 - 14:00 && 11:00 - 13:00 => false
+ * E.g. 22:00 - 23:59 && 20:00 - 23:06 => false
+ * @param tSta start time of the unwanted slot
+ * @param tEnd end time of the unwanted slot
+ * @param secSta start time of the section
+ * @param secEnd end time of the section
+ * @returns true if section overlaps with unwanted slot
+ */
+function timeCompare (tSta, tEnd, secSta, secEnd) {
+	// 6:00 5:00
+	if ( tEnd > secSta && secEnd > tSta ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+function filterLevel (supersonic, $scope) {
+	var courses = $scope.courses;
+
+	var notSelectedLevels = [];
+	var selectedLevels = [];
+	var levels = JSON.parse(window.localStorage.getItem('EasyReg.SelectLevelsControllers.levels'));
+	
+	for (var level in levels) {
+		if ( !levels[level].selected ) {
+			notSelectedLevels.push(levels[level].level);
+		} else {
+			selectedLevels.push(levels[level].level);
+		}
+	}
+	
+	for (var c in courses) {
+		course = courses[c];
+		var courseTitle = course.SIS_COURSE_ID;
+		var courseCode = courseTitle.split("-")[1];
+		var courseLevel = courseCode[0];
+		for (var l in notSelectedLevels) {
+			var level = notSelectedLevels[l];
+			if (level === courseLevel) {
+				course.isEnabledByCode = false;
+				break;
+			}
+		}
+			
+		for (var l in selectedLevels) {
+			var level = selectedLevels[l];
+			if (level === courseLevel) {
+				course.isEnabledByCode = true;
+				break;
+			}
+		}
+	}
+	// End of flagSetForCourse
+	
+	supersonic.logger.debug( "Courses in Level: " + JSON.stringify(courses));
+}
+
 
 function filterUnit () {
 	
 }
 
 
-function filterLevel () {
-	
-}
+
 
 
 

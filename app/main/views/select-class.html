@@ -44,14 +44,14 @@
 	    </a>
 		
 		<!-- Select Time -->
-		<a class="item item-icon-right inlineDisplayRight">
+		<a class="item item-icon-right inlineDisplayRight" ng-click="navigate('select-hours')">
 			Select Time
-			<i class="icon super-arrow-right-b"></i>
+			<i class="icon icon-accessory super-chevron-right"></i>
 		</a>
 	
 		<!-- Select Code -->
 		
-		<a class="item item-icon-right inlineDisplay">
+		<a class="item item-icon-right inlineDisplay" ng-click="navigate('select-levels')">
 			Select Code
 			<i class="icon super-arrow-right-b"></i>
 		</a>
@@ -83,6 +83,7 @@
 		  	<!-- TODO onclick => add to drawer -->
 		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)" >
 		  		<a class="item" ng-click="addCourse(course, section)">{{section.SECTION_ID}} DAY: {{section.DAY}}</a>
+		  		<p>{{section.BEGIN_TIME}} - {{section.END_TIME}}</p>
 		  	</div>
   		</div>
   		
