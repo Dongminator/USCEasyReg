@@ -81,12 +81,46 @@
 		  	</div>
 		  	
 		  	<!-- TODO onclick => add to drawer -->
-		  	<div ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)" >
-		  		<a class="item" ng-click="addCourse(course, section)">{{section.SECTION_ID}} DAY: {{section.DAY}}</a>
-		  		<p>{{section.BEGIN_TIME}} - {{section.END_TIME}}</p>
+		  	<div class="sectionDiv" ng-repeat="section in course.sections | filter:isSectionEnabled" ng-show="isGroupShown(course)" >
+		  		
+		  		<!-- <a class="item" ng-click="addCourse(course, section)" ng-switch="section.DAY">{{section.BEGIN_TIME}} - {{section.END_TIME}} DAY: {{}}</a>
+		  		 -->
+		  		 <!-- TODO Type Lab!!! -->
+		  		<a class="selectEach item" ng-click="addCourse(course, section)"><img class="sectionType" src="/img/Lecture.png"><span>{{section.BEGIN_TIME}} - {{section.END_TIME}}</span><span class="align-right">{{section.DAY}}</span></a>
 		  	</div>
   		</div>
   		
+  		
+  		<!-- fake -->
+  		<div><!-- course -->
+  			<div class="item item-divider" >
+  				<i class="icon" ng-class="super-arrow-down-b"></i>
+	    		&nbsp;
+	    		CMGT-501 Communication Management...
+  			</div>
+  			
+		  	<div class="sectionDiv"  >
+		  		<a class="selectEach item" ><img class="sectionType" src="/img/D.svg"><span>19:00 - 20:00</span><span class="align-right">Monday</span></a>
+		  	</div>
+  			
+  		</div>
+  		<div><!-- course -->
+  			<div class="item item-divider" >
+  				<i class="icon" ng-class="super-arrow-down-b"></i>
+	    		&nbsp;
+	    		CMGT-502 Algorigthms etc...
+  			</div>
+  			
+  			<!-- sections -->
+		  	<div class="sectionDiv"  >
+		  		<a class="selectEach item" ><img class="sectionType" src="/img/3bar.svg">09:00 - 12:00 Tuesday</a>
+		  	</div>
+		  	
+		   	<div class="sectionDiv"  >
+		  		<a class="selectEach item" ><img class="sectionType" src="/img/D.png">12:00 - 14:00 Tuesday</a>
+		  	</div>
+  			
+  		</div>
   		
 	</div>
 	
