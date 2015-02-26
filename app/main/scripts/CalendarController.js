@@ -7,6 +7,10 @@
  * 5. events move back to original position, change event color. 
  */
 
+/*
+ * Soecs: iphone6 viewport height: 667
+ */
+
 angular
   .module('main')
   .controller('CalendarController', function($scope, supersonic) {
@@ -39,17 +43,16 @@ angular
 	            ];
 	  
 	  $scope.addClass = function () {
-		  for (var e in events) {
-			  $('#calendar').fullCalendar( 'renderEvent', events[e]);
-		  }
-		  
+//		  for (var e in events) {
+//			  $('#calendar').fullCalendar( 'renderEvent', events[e]);
+//		  }
+		  calCalH (supersonic)
 //		  addDraggable($('.myDraggable'));
 	  };
 	  
 	  
     
     $('#calendar').fullCalendar({
-        // put your options and callbacks here
     	defaultView: "agendaWeek",
     	
     	// the next three lines are crucial! They enable the drag feature on touch device!
@@ -57,6 +60,7 @@ angular
     		addDraggable(element);
     	},
     	
+    	// TODO
     	events: [
     	         {
     	        	 title: 'Lunch',
@@ -64,6 +68,8 @@ angular
     	        	 end: '2015-02-25T14:00:00'
 						}
 					],
+					
+		// TODO
     	weekends: false, // will hide Saturdays and Sundays,
     	header: false,
     	
@@ -102,7 +108,9 @@ angular
 
         }
 
-    })
+    });
+    
+    $('#calendar').fullCalendar('option', 'height', calCalH(supersonic));
     
 	  
 	  /*
@@ -115,6 +123,26 @@ angular
     
   });
 
+/**
+ * Calculate the height the calendar SHOULD take.
+ * @returns {String}
+ */
+function calCalH (supersonic) {
+	$("body").css("background-color", "#E2E2E0");
+	
+	// find device height
+	var devH = window.screen.height;
+	
+	var calNavH = $("#calNav").height();
+	var div1H = $("#div1").height();
+	var div2H = $("#div2").height();
+	
+	var returnH = devH - calNavH - div1H - div2H;
+	// find 
+	
+	supersonic.logger.debug( "Total: " + devH + " " + calNavH + " " + div1H + " " + div2H + " cal:" + returnH);
+	return returnH;
+}
 
 function addDraggable (div) {
 	div.draggable({

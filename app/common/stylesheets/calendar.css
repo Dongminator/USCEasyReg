@@ -9,11 +9,15 @@
         font-weight:400;
     }
     
-    
+
 .calendarView {
+	padding-top: 0px;
 	background-color: #E2E2E0;
 }
 
+#calNav {
+	position: absolute;
+}
 
 
 .myDroppable {
@@ -43,3 +47,15 @@ border: 1px solid #ddd;
 background: #eee;
 color: #333;
 }
+
+
+.calButton {
+	display: inline-block;
+	width:20%;
+}
+
+.calButtonRight {
+	float: right;
+	width: 20%;
+}
+

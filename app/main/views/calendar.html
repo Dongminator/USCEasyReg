@@ -2,23 +2,29 @@
 
 
 <div class="padding calendarView" ng-controller="CalendarController">
-    <img style="position: absolute; margin-top: 10px; margin-left: 20px" src="/img/3bar.svg"/>
-    <img style="float: right; margin-right: 50px" src="/img/credit.svg"/>
-    
-   <button ng-click="addClass()">add class</button>
-   
-   
-    <div class="myDraggable ui-widget-content ui-draggable" style="position: relative;">
-        <p>Drag me around</p>
-      </div>
-      <script></script>
-      
-      
-      <div id="droppable" class="ui-widget-header ui-droppable">
-        <p>Drop here</p>
-      </div>
+	<div id="calNav">
+		<!-- <img style="position: absolute; margin-top: 10px; margin-left: 20px" src="/img/3bar.svg"/>
+		<img style="float: right; margin-right: 50px" src="/img/credit.svg"/> -->
+		<a class="item item-icon-right calButton" ng-click="navigate('select-days')">
+	      <i class="icon super-chatbubble-working"></i>
+	    </a>
+		
+		<!-- Select Time -->
+		<a class="item item-icon-right calButtonRight" ng-click="navigate('select-hours')">
+			<i class="icon super-ios7-telephone-outline"></i>
+		</a>
+	</div>
+	
+	<div id="div1" class="myDraggable ui-widget-content ui-draggable" >
+		<button ng-click="addClass()" >add class</button>
+		<p>Drag me around</p>
+	</div>
+	
+	<div id="div2" class="ui-widget-header ui-droppable">
+		<p>Drop here</p>
+	</div>
       <script>
-        $( "#droppable" ).droppable({
+        $( "#div2" ).droppable({
           drop: function( event, ui ) {
             $( this )
               .addClass( "ui-state-highlight" )
