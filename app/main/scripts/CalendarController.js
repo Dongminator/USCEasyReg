@@ -55,9 +55,11 @@ angular
     $('#calendar').fullCalendar({
     	defaultView: "agendaWeek",
     	
+    	// Triggered after AN EVENT has been placed on the calendar in its final position
     	// the next three lines are crucial! They enable the drag feature on touch device!
     	eventAfterRender: function(event, element, view) {
-    		addDraggable(element);
+    		addDraggable(element); // Must have!
+    		addDroppable(element); // TODO need to add drappable only once. but need to know the class name of each event
     	},
     	
     	// TODO
@@ -147,6 +149,26 @@ function addDraggable (div) {
 		scroll: false,
 		revert: true
 	});
+}
+
+/**
+ * Only need to add droppable to three buttons (or areas): Register, Delete, UnSchedule.  
+ * @param div: the div that when DRAGGED will activate the "btnActive" class
+ */
+function addDroppable (div) {
+	$(".delBtn").droppable({
+		accept: div,
+		activeClass: "btnActive",
+		hoverClass: "btnHover",
+		drop: function( event, ui ) {
+			$( this ).find( "p" ).html( "Dropped!" );
+			
+		}
+	});
+	
+	// TODO Register button
+	
+	// TODO UnSchedule button
 }
 
 //var myAppModule = angular.module('main', ['ui.calendar']);
