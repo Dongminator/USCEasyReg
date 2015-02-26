@@ -1,26 +1,40 @@
 <!-- Donglin: we dont need a nav bar on top -->
 
-<style type="text/css">
-    .fc-axis span{
-        color: #9a2a1f;
-        font-size: 10px;
-        font-weight:400;
-    }
-    th{
-        color: #9a2a1f;
-        font-size: 10px;
-        font-weight:400;
-    }
-</style>
-    
 
-<div class="padding" ng-controller="CalendarController" style="background-color: #E2E2E0;">
-    <div style="height: 100px"></div>
-    <img style="position: absolute; margin-top: 10px; margin-left: 20px" src="img/3bar.svg"/>
-    <img style="float: right; margin-right: 50px" src="img/credit.svg"/>
+<div class="padding calendarView" ng-controller="CalendarController">
+    <img style="position: absolute; margin-top: 10px; margin-left: 20px" src="/img/3bar.svg"/>
+    <img style="float: right; margin-right: 50px" src="/img/credit.svg"/>
     
+   <button ng-click="addClass()">add class</button>
+   
+   
+    <div class="myDraggable ui-widget-content ui-draggable" style="position: relative;">
+        <p>Drag me around</p>
+      </div>
+      <script></script>
+      
+      
+      <div id="droppable" class="ui-widget-header ui-droppable">
+        <p>Drop here</p>
+      </div>
+      <script>
+        $( "#droppable" ).droppable({
+          drop: function( event, ui ) {
+            $( this )
+              .addClass( "ui-state-highlight" )
+              .find( "p" )
+                .html( "Dropped!" );
+          }
+        });
+      </script>
+      
+      
     <div id="calendar"></div>
+    <!-- <div ui-calendar="uiConfig.calendar" class="padding calendar" ng-model="eventSources"></div>  -->
+    <!-- <div ui-calendar ng-model="eventSources"></div> -->
+    <!-- <div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div> -->
 </div>
+
 
 
 
