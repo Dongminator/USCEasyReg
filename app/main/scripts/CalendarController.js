@@ -7,12 +7,9 @@
  * 5. events move back to original position, change event color. 
  */
 
-
 angular
   .module('main')
   .controller('CalendarController', function($scope, supersonic) {
-	  $scope.navbarTitle = "Calendar";
-	  
 	  // Take courses from window.localStorage, put course title, section start, section end in each event
 	  // if registered, use color: green
 	  // if not registered, not conflicted, use color: yellow
@@ -42,12 +39,11 @@ angular
 	            ];
 	  
 	  $scope.addClass = function () {
-		  supersonic.logger.debug( "add class" );
-		  
 		  for (var e in events) {
 			  $('#calendar').fullCalendar( 'renderEvent', events[e]);
 		  }
-		  $('.myDraggable').draggable();
+		  
+//		  addDraggable($('.myDraggable'));
 	  };
 	  
 	  
@@ -58,7 +54,7 @@ angular
     	
     	// the next three lines are crucial! They enable the drag feature on touch device!
     	eventAfterRender: function(event, element, view) {
-    		element.draggable();
+    		addDraggable(element);
     	},
     	
     	events: [
@@ -87,26 +83,22 @@ angular
     	columnFormat: "ddd",
     	dayNamesShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
     	
-    	editable : true,
+    	editable : false, // must set false. 
 //    	eventStartEditable: false,
-//    	eventDurationEditable: false,
+    	eventDurationEditable: false,
     	
-    	eventDragStart : function(event, jsEvent, ui, view ){
-//    		event.className = "myDraggable";
-//    		$('.myDraggable').draggable();
-    	},
+    	dragScroll: false,
     	
-    	eventDrop: function(event, delta, revertFunc) {
-    		event.className = "myDraggable";
-    		$('.myDraggable').draggable();
-    		revertFunc();
-        },
+    	// eventDragStart, Drop are developed using jQuery. NOT HERE!
+//    	eventDragStart : function(event, jsEvent, ui, view ){
+//
+//    	},
+//    	
+//    	eventDrop: function(event, delta, revertFunc) {
+//    		revertFunc();
+//        },
     	
     	eventClick: function(calEvent, jsEvent, view) {
-
-    		supersonic.logger.debug('Event clicked: ' + calEvent.title);
-    		calEvent.className = "myDraggable";
-    		$('.myDraggable').draggable();
 
         }
 
@@ -123,6 +115,13 @@ angular
     
   });
 
+
+function addDraggable (div) {
+	div.draggable({
+		scroll: false,
+		revert: true
+	});
+}
 
 //var myAppModule = angular.module('main', ['ui.calendar']);
 //
