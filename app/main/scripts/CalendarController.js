@@ -131,16 +131,14 @@ function calCalH (supersonic) {
 	$("body").css("background-color", "#E2E2E0");
 	
 	// find device height
-	var devH = window.screen.height;
+	var devH = window.screen.height; // 667 for iPhone6
 	
 	var calNavH = $("#calNav").height();
-	var div1H = $("#div1").height();
-	var div2H = $("#div2").height();
 	
-	var returnH = devH - calNavH - div1H - div2H;
+	var returnH = devH - calNavH - 20; // -20 for the status bar
 	// find 
 	
-	supersonic.logger.debug( "Total: " + devH + " " + calNavH + " " + div1H + " " + div2H + " cal:" + returnH);
+	supersonic.logger.debug( "Total: " + devH + " " + calNavH + " " + returnH);
 	return returnH;
 }
 
