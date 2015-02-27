@@ -11,45 +11,109 @@
  * Soecs: iphone6 viewport height: 667
  */
 
+
+/*
+ * {
+ * 	section: "123",
+ * 	course: "",
+ * 	event: ""
+ * }
+ */
+var sectionEventBinder = []; // need to bind section with event
+var display = [];
+
+
 angular
   .module('main')
   .controller('CalendarController', function($scope, supersonic) {
+	  initAreas ();
 	  // Take courses from window.localStorage, put course title, section start, section end in each event
 	  // if registered, use color: green
 	  // if not registered, not conflicted, use color: yellow
 	  // if conflicted, use color: red
+	  supersonic.ui.views.current.whenVisible(function() {
+		  supersonic.logger.debug("calendar is now visible");
+		  supersonic.logger.debug(JSON.stringify(display));
+	  });
+	  $scope.getJson = function () {
+		  courses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
+		  supersonic.logger.debug(courses);
+		  $scope.courses = courses;
+		  var title = "";
+		  var start = "";
+		  var end = "";
+		  var color = "";
+		  for (var cour in courses) {
+			  var c = courses[cour];
+			  
+			  // isInterested, isScheduled, isRegistered, isConflicted
+			  if (c.isInterested && c.isScheduled) {
+				  var sections = c.sections;
+				  if (c.isRegistered) {
+					  for (var sec in sections) {
+						  var s = sections[sec];
+						  if (s.isRegistered) {
+							// get start time, end time, title
+							  title = c.SIS_COURSE_ID;
+							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
+							  end = getEndDateTime(s.DAY, s.END_TIME);
+							  color = "green";
+							  break; // only one section can be registered
+						  }
+					  }
+				  } else { // not registered but on calendar, put section.isScheduled on calendar. 
+					  for (var sec in sections) {
+						  var s = sections[sec];
+						  if (s.isScheduled) {
+							  // get start time, end time, title
+							  title = c.SIS_COURSE_ID;
+							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
+							  end = getEndDateTime(s.DAY, s.END_TIME);
+							  color = "yellow";
+							  break;// only one section can be scheduled
+						  }
+					  }
+				  }
+				  supersonic.logger.debug("Event Info: " + title + " " + start + " " + end + " " + color);
+				  var event = {
+		                	title  : title,
+		                	start  : start,
+		                	end    : end,
+		                	color : color
+		                };
+				  display = event;
+				  $('#calendar').fullCalendar( 'renderEvent', event);
+			  } else if (c.isInterested && !c.isScheduled) { // interested, not scheduled on calendar
+				  // do nothing on calendar
+				  supersonic.logger.debug("do nothing on calendar");
+			  }
+		  }
+		  
+		  
+	  };
+
+	  var courses;
+	  
+	  
 	  var events = [
 	                {
 	                	title  : 'section1',
-	                	start  : '2015-02-23T11:30:00',
-	                	end    : '2015-02-23T13:30:00',
-	                	color  : 'red',
-	                	className: "myDraggable"
+	                	start  : '2015-02-25T08:30:00',
+	                	end    : '2015-02-25T13:30:00'
 	                },
 	                {
 	                	title  : 'section2',
-	                	start  : '2015-02-24T11:30:00',
-	                	end    : '2015-02-24T13:30:00',
-	                    color  : 'black',
-	                    className: "myDraggable"
+	                	start  : '2015-02-26T11:30:00',
+	                	end    : '2015-02-26T13:30:00'
 	                },
 	                {
 	                	title  : 'section3',
-	                	start  : '2015-02-25T11:30:00',
-	                	end    : '2015-02-25T13:30:00',
-	                	color  : 'green',
-	                	className: "myDraggable"
+	                	start  : '2015-02-27T11:30:00',
+	                	end    : '2015-02-27T13:30:00'
+//	                	color  : 'green',
+//	                	className: "myDraggable"
 	                }
 	            ];
-	  
-	  $scope.addClass = function () {
-//		  for (var e in events) {
-//			  $('#calendar').fullCalendar( 'renderEvent', events[e]);
-//		  }
-		  calCalH (supersonic)
-//		  addDraggable($('.myDraggable'));
-	  };
-	  
 	  
     
     $('#calendar').fullCalendar({
@@ -63,14 +127,6 @@ angular
     		addDroppable(element); // TODO need to add drappable only once. but need to know the class name of each event
     	},
     	
-    	// TODO
-    	events: [
-    	         {
-    	        	 title: 'Lunch',
-    	        	 start: '2015-02-25T12:00:00',
-    	        	 end: '2015-02-25T14:00:00'
-						}
-					],
 					
 		// TODO
     	weekends: false, // will hide Saturdays and Sundays,
@@ -107,22 +163,20 @@ angular
 //    		revertFunc();
 //        },
     	
+    	
     	eventClick: function(calEvent, jsEvent, view) {
 
         }
 
     });
     
+
     $('#calendar').fullCalendar('option', 'height', calCalH(supersonic));
+    $scope.getJson();
     
-	  
-	  /*
-	   * use custome view.
-	   */
-//	  $('#calendar').fullCalendar({
-//		  defaultView: view
-//	  });
-    
+//    $('#calendar').fullCalendar( 'renderEvent', events[0]);
+//    $('#calendar').fullCalendar( 'renderEvent', events[1]);
+//    $('#calendar').fullCalendar( 'renderEvent', events[2]);
     
   });
 
@@ -150,34 +204,187 @@ function addDraggable (div) {
 		scroll: false,
 		revert: true,
 		drag: function( event, ui ) {
-			$(".delBtn").show();
+			showAreas ();
 		},
 		stop: function( event, ui ) {
-			$(".delBtn").hide();
-		}
+			hideAreas();
+		},
+		refreshPositions: true,
+		zIndex: 100
 	});
+}
+
+function showAreas () {
+	$("#regArea").show();
+	$("#delArea").show();
+	$("#bacArea").show();
+}
+
+function hideAreas () {
+	$("#regArea").hide();
+	$("#delArea").hide();
+	$("#bacArea").hide();
 }
 
 /**
  * Only need to add droppable to three buttons (or areas): Register, Delete, UnSchedule.  
- * @param div: the div that when DRAGGED will activate the "btnActive" class
+ * @param div: the div that when DRAGGED will activate the "areaActive" class
  */
 function addDroppable (div) {
-	$(".delBtn").droppable({
-		accept: div,
-		activeClass: "btnActive",
-		hoverClass: "btnHover",
+	var acceptDiv = ".fc-event";
+	// TODO Register button
+	$("#regArea").droppable({
+		accept: acceptDiv,
+//		activeClass: "areaActive",
+		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			$( this ).find( "p" ).html( "Dropped!" );
+			// change registered color
+			// Find event
 			
+			
+			var triggeredUI = ui.draggable.html();
+			$( this ).find( "p" ).html( "Registered!" + triggeredUI);
+		},
+		over: function( event, ui ) {
+			$( this ).find( "p" ).html( "hovering..." );
+			$( this ).css("background-color", "red");
+		},
+		out: function( event, ui ) {
+			$( this ).find( "p" ).html( "hover out.." );
+			$( this ).css("background-color", "yellow");
+		}
+
+	});
+	
+	// TODO delete button
+	$("#delArea").droppable({
+		accept: acceptDiv,
+//		activeClass: "areaActive",
+		hoverClass: "areaHover",
+		drop: function( event, ui ) {
+			$( this ).find( "p" ).html( "deleted!" );
+		},
+		over: function( event, ui ) {
+			$( this ).find( "p" ).html( "hovering..." );
+			$( this ).css("background-color", "red");
+		},
+		out: function( event, ui ) {
+			$( this ).find( "p" ).html( "hover out.." );
+			$( this ).css("background-color", "yellow");
 		}
 	});
 	
-	// TODO Register button
-	
-	// TODO UnSchedule button
+	// TODO remove from calendar button
+	$("#bacArea").droppable({
+		accept: acceptDiv,
+//		activeClass: "areaActive",
+		hoverClass: "areaHover",
+		drop: function( event, ui ) {
+			$( this ).find( "p" ).html( "removed!" );
+		},
+		over: function( event, ui ) {
+			$( this ).find( "p" ).html( "hovering..." );
+			$( this ).css("background-color", "red");
+		},
+		out: function( event, ui ) {
+			$( this ).find( "p" ).html( "hover out.." );
+			$( this ).css("background-color", "yellow");
+		}
+	});
 }
 
+
+
+function initAreas () {
+	var devW = window.screen.width;
+	var devH = window.screen.height;
+	
+	// init Register Area => #regArea
+	var regW=devW*1/2; 
+	var regH=devH*1/4; 
+	var regT=devH*1/8; 
+	var regL=devW*1/4;
+	
+	$("#regArea").css("width", regW);
+	$("#regArea").css("height", regH);
+	$("#regArea").css("top", regT);
+	$("#regArea").css("left", regL);
+	
+	// init Delete Area => #delArea
+	var delW=devW*1/2; 
+	var delH=devH*1/4; 
+	var delT=devH*5/8; 
+	var delL=devW*1/4;
+	
+	$("#delArea").css("width", delW);
+	$("#delArea").css("height", delH);
+	$("#delArea").css("top", delT);
+	$("#delArea").css("left", delL);
+	
+	// init Back Area => #bacArea
+	var bacW=devW*1/4; 
+	var bacH=bacW*2; 
+	var bacT=devH*1/2 - bacW; 
+	var bacL=0;
+	
+	$("#bacArea").css("width", bacW);
+	$("#bacArea").css("height", bacH);
+	$("#bacArea").css("top", bacT);
+	$("#bacArea").css("left", bacL);
+}
+
+
+function getStartDateTime(day, time) {
+	switch(day[0]) {
+    case "M":
+        day = "Monday";
+        return "2015-02-23T" + time + ":00";
+    case "T":
+        day = "Tuesday";
+        return "2015-02-24T" + time + ":00";
+    case "W":
+        day = "Wednesday";
+        return "2015-02-25T" + time + ":00";
+    case "H":
+        day = "Thursday";
+        return "2015-02-26T" + time + ":00";
+    case "F":
+        day = "Friday";
+        return "2015-02-27T" + time + ":00";
+    case "S":
+        day = "Saturday";
+        return "2015-02-28T" + time + ":00";
+	default:
+        day = "Sunday";
+        return "2015-03-01T" + time + ":00";
+	}
+}
+
+function getEndDateTime(day, time) {
+	switch(day[0]) {
+    case "M":
+        day = "Monday";
+        return "2015-02-23T" + time + ":00";
+    case "T":
+        day = "Tuesday";
+        return "2015-02-24T" + time + ":00";
+    case "W":
+        day = "Wednesday";
+        return "2015-02-25T" + time + ":00";
+    case "H":
+        day = "Thursday";
+        return "2015-02-26T" + time + ":00";
+    case "F":
+        day = "Friday";
+        return "2015-02-27T" + time + ":00";
+    case "S":
+        day = "Saturday";
+        return "2015-02-28T" + time + ":00";
+	default:
+        day = "Sunday";
+        return "2015-03-01T" + time + ":00";
+	}
+}
 //var myAppModule = angular.module('main', ['ui.calendar']);
 //
 //function CalendarController($scope,$compile,uiCalendarConfig) {

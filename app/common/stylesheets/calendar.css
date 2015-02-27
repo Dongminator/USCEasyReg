@@ -17,35 +17,34 @@
 	z-index: 3;
 }
 
-.calSpan {
-	width: 100px;
-	height: 100px;
-	background: green;
-	
+#regArea {
+	background: yellow;
 	position:absolute;
-	top: 100px;
-	left: 200px;
-	
 	z-index: 2;
+	opacity: 0.5;
+	display: none;
 }
 
-.delBtn {
-	width: 200px;
-	height: 200px;
-	background: red; /* remove this. this line is only for testing the section is positioned correctly. */
-
+#delArea {
+	background: yellow; /* remove this. this line is only for testing the section is positioned correctly. */
 	position:absolute;
-	top: 100px;
-	left: 50px;
 	z-index: 2;
 	opacity: 0.5;
 	display:none;
 }
 
+#bacArea {
+	background: yellow;
+	position:absolute;
+	z-index: 2;
+	opacity: 0.5;
+	display: none;
+}
+
 /*
  * When user starts dragging calendar events.
  */
-.btnActive{
+.areaActive{
 	background-color:yellow;
 	-webkit-border-radius: 30px;
     border-radius: 30px;
@@ -54,8 +53,8 @@
 /*
  * When user drags the events inside the activation area
  */
-.btnHover {
-	background-color:green;
+.areaHover {
+	background-color: red;
 }
 
 

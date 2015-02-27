@@ -4,7 +4,6 @@ angular
 	  $scope.navbarTitle = "Select Class"; 
 	  
 	  $scope.run = function () {
-		  supersonic.logger.debug( "a" );
 		  window.localStorage.clear();
 		  if (window.localStorage.getItem('EasyReg.initialized')!==null) {
 			  supersonic.logger.debug( "already set" );
@@ -134,7 +133,9 @@ angular
 		  } else {
 			  // add new course to calendar
 			  course.isInterested = true;
+			  course.isScheduled = true;
 			  section.isInterested = true;
+			  section.isScheduled = true;
 			  
 			  interestedCourses.push(course);
 			  window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(interestedCourses));
@@ -174,6 +175,7 @@ function selectModules (supersonic, $scope, $http) {
 						"isEnabledByCode" : true, 
 						"isEnabledByUnits" : true,
 		        		"isInterested": false,
+		        		"isScheduled": false,
 		        		"isRegistered": false,
 		        		"isConflicted": false
 				};
@@ -220,6 +222,7 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 						"isEnabledByTime" : true,
 						"isEnabledByUnits" : true,
 		        		"isInterested": false,
+		        		"isScheduled": false,
 		        		"isRegistered": false,
 		        		"isConflicted": false
 				};
@@ -249,7 +252,7 @@ function initLocalStorage () {
 	             {day: 'Wednesday', selected: true, abbre : "W"},
 	             {day: 'Thursday', selected: true, abbre : "H"},
 	             {day: 'Friday', selected: true, abbre : "F"},
-	             {day: 'Saturday', selected: true, abbre : "U"},
+	             {day: 'Saturday', selected: true, abbre : "S"},
 	             {day: 'Sunday', selected: true, abbre : "N"}
 	             ]; 
 	
@@ -262,8 +265,8 @@ function initLocalStorage () {
 	             {hour: 'h6', selected: true, start: "14:00", end: "16:00", text: "14:00 - 16:00", abbre : "h6"}, 
 	             {hour: 'h7', selected: true, start: "16:00", end: "18:00", text: "16:00 - 18:00", abbre : "h7"}, 
 	             {hour: 'h8', selected: true, start: "18:00", end: "20:00", text: "18:00 - 20:00", abbre : "h8"}, 
-	             {hour: 'h9', selected: true, start: "20:00", end: "22:06", text: "20:00 - 22:00", abbre : "h9"}, 
-	             {hour: 'h10', selected: true, start: "22:06", end: "23:59", text: "End after 22:00", abbre : "h10"}, 
+	             {hour: 'h9', selected: true, start: "20:00", end: "22:00", text: "20:00 - 22:00", abbre : "h9"}, 
+	             {hour: 'h10', selected: true, start: "22:00", end: "23:59", text: "End after 22:00", abbre : "h10"}, 
 	             ]; 
 	
 	var levels = [
@@ -309,7 +312,7 @@ function runFilter (supersonic, $scope) {
  * W - Wednesday
  * H - Thursday
  * F - Friday 
- * ? - Saturday TODO need to find out
+ * S - Saturday TODO need to find out
  * ? - Sunday TODO need to find out
  * -------
  * 7654321
@@ -482,7 +485,7 @@ function filterLevel (supersonic, $scope) {
 	}
 	// End of flagSetForCourse
 	
-	supersonic.logger.debug( "Courses in Level: " + JSON.stringify(courses));
+//	supersonic.logger.debug( "Courses in Level: " + JSON.stringify(courses));
 }
 
 

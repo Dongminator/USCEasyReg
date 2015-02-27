@@ -14,12 +14,18 @@
                 "INSTRUCTOR": "Cull, Nick",
                 "SEATS": 20,
         		"isInterested": true,
+        		"isScheduled": false,
         		"isRegistered": false,
         		"isConflicted": false
         		
             }
         ],
-        "isInterested" : true,
+        "isEnabledByDay" : true,
+        "isEnabledByTime" : true, 
+        "isEnabledByCode" : true, 
+        "isEnabledByUnits" : true,
+        "isInterested": false,
+        "isScheduled": false,
         "isRegistered": false,
         "isConflicted": false
     },
