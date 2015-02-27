@@ -46,6 +46,7 @@ angular
 		  var end = "";
 		  var color = "";
 		  var textColor = "";
+		  
 		  for (var cour in courses) {
 			  var c = courses[cour];
 			  // isInterested, isScheduled, isRegistered, isConflicted
@@ -55,13 +56,17 @@ angular
 					  for (var sec in sections) {
 						  var s = sections[sec];
 						  if (s.isRegistered) {
+							  for(var i =0; i< s.DAY.length; i=i+1){
+								  displayCalender(c,s,i,"green");
+							  }
+							  
 							// get start time, end time, title
-							  id = s.SECTION_ID;
-							  title = c.SIS_COURSE_ID;
-							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
-							  end = getEndDateTime(s.DAY, s.END_TIME);
-							  color = "green";
-							  textColor = "black";
+//							  id = s.SECTION_ID;
+//							  title = c.SIS_COURSE_ID;
+//							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
+//							  end = getEndDateTime(s.DAY, s.END_TIME);
+//							  color = "green";
+//							  textColor = "black";
 							  break; // only one section can be registered
 						  }
 					  }
@@ -69,28 +74,30 @@ angular
 					  for (var sec in sections) {
 						  var s = sections[sec];
 						  if (s.isScheduled) {
+							  for(var i =0; i< s.DAY.length; i=i+1){
+								  displayCalender(c,s,i,"yellow");
+							  }
 							  // get start time, end time, title
-							  id = s.SECTION_ID;
-							  title = c.SIS_COURSE_ID;
-							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
-							  end = getEndDateTime(s.DAY, s.END_TIME);
-							  color = "yellow";
-							  textColor = "black";
+//							  id = s.SECTION_ID;
+//							  title = c.SIS_COURSE_ID;
+//							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
+//							  end = getEndDateTime(s.DAY, s.END_TIME);
+//							  color = "yellow";
+//							  textColor = "black";
 							  break;// only one section can be scheduled
 						  }
 					  }
 				  }
 //				  supersonic.logger.debug("Event Info: " + title + " " + start + " " + end + " " + color);
-				  var event = {
-						  id: id,
-						  title: title + " " + id,
-						  start: start,
-						  end: end,
-						  color : color,
-						  textColor: textColor
-				  };
-				  display = event;
-				  $('#calendar').fullCalendar( 'renderEvent', event);
+//				  var event = {
+//						  id: id,
+//						  title: title + " " + id,
+//						  start: start,
+//						  end: end,
+//						  color : color,
+//						  textColor: textColor
+//				  };
+//				  $('#calendar').fullCalendar( 'renderEvent', event);
 			  } else if (c.isInterested && !c.isScheduled) { // interested, not scheduled on calendar
 				  // do nothing on calendar
 				  supersonic.logger.debug("do nothing on calendar");
@@ -136,6 +143,29 @@ angular
     $('#calendar').fullCalendar('option', 'height', calCalH(supersonic));
     
   });
+
+
+function displayCalender(course, section,index,color){
+	c = course;
+	s = section;
+	id = s.SECTION_ID;
+	title = c.SIS_COURSE_ID;
+	start = getStartDateTime(s.DAY, s.BEGIN_TIME,index);
+	end = getEndDateTime(s.DAY, s.END_TIME,index);
+	textColor = "black";
+	var event = {
+			  id: id,
+			  title: title + " " + id,
+			  start: start,
+			  end: end,
+			  color : color,
+			  textColor: textColor
+	  };
+	  display = event;
+	  $('#calendar').fullCalendar( 'renderEvent', event);
+}
+
+
 
 /**
  * Calculate the height the calendar SHOULD take.
@@ -351,8 +381,8 @@ function initAreas () {
 }
 
 
-function getStartDateTime(day, time) {
-	switch(day[0]) {
+function getStartDateTime(day, time, i) {
+	switch(day[i]) {
     case "M":
         day = "Monday";
         return "2015-02-23T" + time + ":00";
@@ -377,8 +407,8 @@ function getStartDateTime(day, time) {
 	}
 }
 
-function getEndDateTime(day, time) {
-	switch(day[0]) {
+function getEndDateTime(day, time, i) {
+	switch(day[i]) {
     case "M":
         day = "Monday";
         return "2015-02-23T" + time + ":00";
