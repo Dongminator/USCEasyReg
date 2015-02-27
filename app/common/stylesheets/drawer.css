@@ -1,0 +1,26 @@
+body {
+	background-color: #9a2a1f;
+	/* background-color:#990000; */
+}
+
+.bkgd {
+	background-color: #9a2a1f;
+	border-width: 0px;
+
+}
+
+.UnRegCourseBkgd {
+	background-color: #7d0022;
+	border-width: 0px;
+
+}
+
+.bkgd .caption1 {
+	color: white;
+	font-size: 24px;
+}
+
+.coursefont {
+	color: white;
+	font-size: 16px;
+}
