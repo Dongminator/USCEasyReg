@@ -1,5 +1,5 @@
 angular
-  .module('main')
+  .module('drawer')
   .controller('DrawerController', function($scope, supersonic) {
 
     $scope.navbarTitle = "Drawer";

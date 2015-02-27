@@ -2,35 +2,25 @@
 <html>
 <head>
   <meta charset="utf8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
   <title><%= yield.viewName %></title>
 
   <link rel="stylesheet" href="/components/supersonic/css/supersonic.css" />
   <link rel="stylesheet" href="/app/common/stylesheets/application.css" />
-  <link rel="stylesheet" href="/app/common/stylesheets/calendar.css" />
-  <link rel="stylesheet" href="/components/fullcalendar/dist/fullcalendar.css" />
   <link rel="import" href="/components/supersonic/components/import.html">
 
+
+  <script src="/components/jquery/dist/jquery.min.js"></script>
   <script src="http://localhost/cordova.js"></script>
   <script src="/components/steroids-js/steroids.js"></script>
   <script src="/components/angular/angular.js"></script>
   <script src="/components/supersonic/supersonic.js"></script>
   <script src="/components/webcomponentsjs/webcomponents.js"></script>
+
+
   
   <script src="/components/moment/min/moment.min.js"></script>
-  <script src="/components/jquery/dist/jquery.min.js"></script>
- <script type="text/javascript" src="/components/jquery-ui/jquery-ui.js"></script> 
- <script type="text/javascript" src="/components/jquery-ui/ui/draggable.js"></script> 
- <script type="text/javascript" src="/components/jquery-ui/ui/droppable.js"></script> 
-  <!-- jQuery and Moment must be loaded before FullCalendar -->
   <script src="/components/fullcalendar/dist/fullcalendar.js"></script>
-	<script type="text/javascript" src="/components/angular-ui-calendar/src/calendar.js"></script>
-	<script type="text/javascript" src="/components/fullcalendar/dist/gcal.js"></script>
-	
-	<script type="text/javascript" src="/components/jqueryui-touch-punch/jquery.ui.touch-punch.js"></script>
-	
-	
   
   <% _.each(yield.modules, function(module) { %>
   <script src="/app/<%= module %>.js"></script>
