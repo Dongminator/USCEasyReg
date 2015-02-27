@@ -1,7 +1,24 @@
+
 angular
   .module('main')
   .controller('SelectClassController', function($scope, supersonic, $http) {
 	  $scope.navbarTitle = "Select Class"; 
+	  
+	  
+	  $scope.findSchool = function () {
+		  var school = supersonic.data.model('school');
+		  // TODO find all schools at backend. Currently schools are stored at the end of this file.
+		  $scope.schoolLength = allSchools.length;
+		  $scope.schools = [];
+		  var schoolObjects = new Array();
+		  for (i = 0; i < allSchools.length; i++) {
+			  // id is SOC_SCHOOL_CODE
+			  schoolObjects[i] = {"code" : allSchools[i].id, "value" : allSchools[i].SOC_SCHOOL_DESCRIPTION};
+		  }
+		  $scope.schools = schoolObjects;
+		  $scope.selectedSchool = schoolObjects[0];
+		  $scope.run();
+	  };
 	  
 	  $scope.run = function () {
 		  window.localStorage.clear();
@@ -11,30 +28,8 @@ angular
 			  initLocalStorage();
 			  supersonic.logger.debug( "init" );
 		  }
+		  $scope.changeSchool();
 	  };
-	  
-	  $scope.findSchool = function () {
-		  var school = supersonic.data.model('school');
-		  // find all schools at backend
-		  school.findAll().then( function(allSchools) {
-			  $scope.schoolLength = allSchools.length;
-			  supersonic.logger.debug($scope.schoolLength);
-			  $scope.schools = [];
-			  var schoolObjects = new Array();
-			  for (i = 0; i < allSchools.length; i++) {
-				  // id is SOC_SCHOOL_CODE
-				  schoolObjects[i] = {"code" : allSchools[i].id, "value" : allSchools[i].SOC_SCHOOL_DESCRIPTION};
-			  }
-			  $scope.schools = schoolObjects;
-			  $scope.selectedSchool = schoolObjects[0];
-			  
-			  $scope.run();
-		  }, function (error) {
-			  supersonic.logger.debug(error);
-		  });
-	  };
-	  
-	  $scope.findSchool();
 	  
 	  $scope.changeSchool = function () {
 		  // code is the school code, e.g. ENGR. Value is the full name of the school.
@@ -58,6 +53,8 @@ angular
 		  		}
 		  		$scope.departments = departmentObjects;
     	    	$scope.selectedDept = departmentObjects[0];
+
+    			$scope.changeDept();
 		  	}).
 		  	error(function(data, status, headers, config) {
 		  		supersonic.logger.debug( status );
@@ -65,12 +62,11 @@ angular
 
 		  supersonic.logger.debug("Querying executed!");
 	  };
-
+	  
 	  $scope.changeDept = function () {
 		  selectModules(supersonic, $scope, $http);
 	  };
 
-	  
 	  // The next two functions provide the expand/collapse feature.
 	  $scope.toggleCourse = function(course) {
 		  if (course.expanded === true) {
@@ -142,6 +138,10 @@ angular
 		  }
 		  
 	  };
+	  
+	  
+
+	  $scope.findSchool();
   });
 
 /*
@@ -529,3 +529,127 @@ function filterUnit (supersonic, $scope) {
 
 
 
+
+
+var allSchools = [
+                  {
+                	  "id": "ACAD",
+                      "SOC_SCHOOL_DESCRIPTION": "Iovine and Young Academy",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "ACCT",
+                      "SOC_SCHOOL_DESCRIPTION": "Leventhal School of Accounting",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "ANSC",
+                      "SOC_SCHOOL_DESCRIPTION": "Annenberg School for Communication and Journalism",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "ARCH",
+                      "SOC_SCHOOL_DESCRIPTION": "Architecture",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "BUAD",
+                      "SOC_SCHOOL_DESCRIPTION": "Marshall School of Business",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "CNTV",
+                      "SOC_SCHOOL_DESCRIPTION": "Cinematic Arts",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "DANC",
+                      "SOC_SCHOOL_DESCRIPTION": "Kaufman School of Dance",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "DENT",
+                      "SOC_SCHOOL_DESCRIPTION": "Ostrow School of Dentistry",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "DHRP",
+                      "SOC_SCHOOL_DESCRIPTION": "Physical Therapy",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "EDUC",
+                      "SOC_SCHOOL_DESCRIPTION": "Rossier School of Education",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "ENGR",
+                      "SOC_SCHOOL_DESCRIPTION": "Viterbi School of Engineering",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "FA",
+                      "SOC_SCHOOL_DESCRIPTION": "Roski School of Art and Design",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "GE",
+                      "SOC_SCHOOL_DESCRIPTION": "General Education",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "GERO",
+                      "SOC_SCHOOL_DESCRIPTION": "Gerontology",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "GRAD",
+                      "SOC_SCHOOL_DESCRIPTION": "Graduate Studies",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "LAS",
+                      "SOC_SCHOOL_DESCRIPTION": "Dornsife College of Letters, Arts and Sciences",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "LAW",
+                      "SOC_SCHOOL_DESCRIPTION": "Law",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "MED",
+                      "SOC_SCHOOL_DESCRIPTION": "Keck School of Medicine",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "MUS",
+                      "SOC_SCHOOL_DESCRIPTION": "Thornton School of Music",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "OT",
+                      "SOC_SCHOOL_DESCRIPTION": "Occupational Science and Occupational Therapy",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "PHAR",
+                      "SOC_SCHOOL_DESCRIPTION": "Pharmacy",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "PPD",
+                      "SOC_SCHOOL_DESCRIPTION": "Price School of Public Policy",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "SOWK",
+                      "SOC_SCHOOL_DESCRIPTION": "Social Work",
+                      "SOC_DEPARTMENT_CODE": []
+                  },
+                  {
+                      "id": "THTR",
+                      "SOC_SCHOOL_DESCRIPTION": "Dramatic Arts",
+                      "SOC_DEPARTMENT_CODE": []
+                  }
+              ];
