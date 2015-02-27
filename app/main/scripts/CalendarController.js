@@ -1,9 +1,11 @@
 angular
   .module('main')
   .controller('CalendarController', function($scope, supersonic) {
-
     $scope.navbarTitle = "Calendar";
-
+    var selectedCoureseJson = JSON.parse(window.localStorage.getItem("EasyReg..selectedCourses"));
+    
+    //make up data for now
+    var json=[];
   });
 
 
@@ -18,8 +20,8 @@ $(document).ready(function() {
             center:'',
             right:''            
         },
-        height: 1175,
-        slotDuration: '00:15:00',
+        height: 400,
+        slotDuration: '00:30:00',
         weekends: false,
         defaultView: 'agendaWeek',
         allDaySlot: false,
