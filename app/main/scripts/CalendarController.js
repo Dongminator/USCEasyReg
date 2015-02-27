@@ -188,7 +188,6 @@ function addDroppable (div) {
 	// TODO Register button
 	$("#regArea").droppable({
 		accept: acceptDiv,
-//		activeClass: "areaActive",
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
 			var secId = findSecId (ui);
@@ -200,6 +199,7 @@ function addDroppable (div) {
 			
 			// change data
 			scheduleCourse (secId);
+			$( this ).css("background-color", "yellow");
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
@@ -220,6 +220,7 @@ function addDroppable (div) {
 			$("#calendar").fullCalendar( 'removeEvents', secId );
 			// delete course in backend and setItem
 			deleteCourse(secId);
+			$( this ).css("background-color", "yellow");
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
@@ -240,6 +241,7 @@ function addDroppable (div) {
 			$("#calendar").fullCalendar( 'removeEvents', secId );
 			// modify course in backend and setItem
 			unscheduleCourse(secId);
+			$( this ).css("background-color", "yellow");
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
@@ -313,6 +315,9 @@ function deleteCourse (secId) {
 }
 
 function initAreas () {
+	var iconHeight = 26;
+	var iconWidth = 26;
+	var ic = 13;
 	var devW = window.screen.width;
 	var devH = window.screen.height;
 	
@@ -321,11 +326,15 @@ function initAreas () {
 	var regH=devH*1/4; 
 	var regT=devH*1/8; 
 	var regL=devW*1/4;
-	
+
 	$("#regArea").css("width", regW);
 	$("#regArea").css("height", regH);
 	$("#regArea").css("top", regT);
 	$("#regArea").css("left", regL);
+	
+
+	$("#regArea img").css("top", regH/2 - ic);
+	$("#regArea img").css("left", regW/2 - ic);
 	
 	// init Delete Area => #delArea
 	var delW=devW*1/2; 
@@ -338,6 +347,9 @@ function initAreas () {
 	$("#delArea").css("top", delT);
 	$("#delArea").css("left", delL);
 	
+	$("#delArea img").css("top", delH/2 - ic);
+	$("#delArea img").css("left", delW/2 - ic);
+	
 	// init Back Area => #bacArea
 	var bacW=devW*1/4; 
 	var bacH=bacW*2; 
@@ -348,6 +360,9 @@ function initAreas () {
 	$("#bacArea").css("height", bacH);
 	$("#bacArea").css("top", bacT);
 	$("#bacArea").css("left", bacL);
+	
+	$("#bacArea img").css("top", bacH/2 - ic);
+	$("#bacArea img").css("left", bacW/2 - ic);
 }
 
 

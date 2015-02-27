@@ -17,29 +17,20 @@
 	z-index: 3;
 }
 
-#regArea {
+#regArea, #delArea, #bacArea {
 	background: yellow;
 	position:absolute;
 	z-index: 2;
 	opacity: 0.5;
 	display: none;
+	-webkit-border-radius: 5em;
+	border-radius: 5em;
 }
 
-#delArea {
-	background: yellow; /* remove this. this line is only for testing the section is positioned correctly. */
+#regArea img, #delArea img, #bacArea img {
 	position:absolute;
-	z-index: 2;
-	opacity: 0.5;
-	display:none;
 }
 
-#bacArea {
-	background: yellow;
-	position:absolute;
-	z-index: 2;
-	opacity: 0.5;
-	display: none;
-}
 
 /*
  * When user starts dragging calendar events.
