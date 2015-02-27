@@ -199,6 +199,7 @@ function addDroppable (div) {
 			$("#calendar").fullCalendar( 'updateEvent', calEvent);
 			
 			// change data
+			scheduleCourse (secId);
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
@@ -228,7 +229,7 @@ function addDroppable (div) {
 		}
 	});
 	
-	// TODO remove from calendar button
+	// Femove from calendar button
 	$("#bacArea").droppable({
 		accept: acceptDiv,
 //		activeClass: "areaActive",
@@ -237,17 +238,13 @@ function addDroppable (div) {
 			var secId = findSecId (ui);
 			// remove event on calendar
 			$("#calendar").fullCalendar( 'removeEvents', secId );
-			
 			// modify course in backend and setItem
 			unscheduleCourse(secId);
-			$( this ).find( "p" ).html( "Removed secID: " + secId);
 		},
 		over: function( event, ui ) {
-			$( this ).find( "p" ).html( "hovering..." );
 			$( this ).css("background-color", "red");
 		},
 		out: function( event, ui ) {
-			$( this ).find( "p" ).html( "hover out.." );
 			$( this ).css("background-color", "yellow");
 		}
 	});
@@ -259,6 +256,26 @@ function findSecId (ui) {
 	return trigUiArr[trigUiArr.length-1];
 }
 
+// Register this course.
+function scheduleCourse (secId) {
+	var ctr = 0;
+	for (var course in courses) {
+		var c = courses[course];
+		var sections = c.sections;
+		for (var section in sections) {
+			var s = sections[section];
+			if (s.SECTION_ID == secId) { //
+				s.isRegistered = true;
+				c.isRegistered = true;
+				window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(courses));
+				return;
+			}
+		}
+		ctr++;
+	}
+}
+
+// Remove from calendar but not from interested list.
 function unscheduleCourse (secId) {
 	var ctr = 0;
 	for (var course in courses) {
@@ -277,6 +294,7 @@ function unscheduleCourse (secId) {
 	}
 }
 
+// remove from calendar, remove from interested list. So it is removed from local storage.
 function deleteCourse (secId) {
 	var ctr = 0;
 	for (var course in courses) {
