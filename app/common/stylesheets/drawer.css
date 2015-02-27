@@ -24,3 +24,11 @@ body {
 	color: white;
 	font-size: 16px;
 }
+
+.scheduledBar {
+    background-color: #7d0022;
+}
+
+.unscheduledBar {
+    background-color: #9a2a1f;
+}
