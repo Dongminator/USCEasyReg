@@ -54,7 +54,10 @@ angular
                 sectionList[s].isScheduled = true;
             }
         }
-        window.localStorage.setItem('EasyReg.interestedCourses', courses);
+        window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(courses));
+        for(var s in sectionList){
+            supersonic.logger.debug(sectionList[s].SECTION_ID+": "+sectionList[s].isScheduled);
+        }
     };
     
     
