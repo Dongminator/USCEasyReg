@@ -2,6 +2,10 @@ angular
   .module('drawer')
   .controller('DrawerController', function($scope, supersonic) {
 
+    /*supersonic.ui.drawers.whenWillShow(function() {
+        supersonic.logger.log("Drawers will show"); 
+    });*/
+    
     $scope.navbarTitle = "Drawer";
     var courses;
     $scope.getJson = function () {
@@ -39,8 +43,20 @@ angular
 	  $scope.isSectionRegistered = function (section) {
 		  return section.isRegistered;
 	  };
-
+        
+    $scope.setScheduled = function(course, section){
+        var sectionList = course.sections;
+        course.isScheduled = true;
+        for(var s in sectionList){
+            if(sectionList[s].SECTION_ID !== section.SECTION_ID ){
+                sectionList[s].isScheduled = false;
+            }else{
+                sectionList[s].isScheduled = true;
+            }
+        }
+        window.localStorage.setItem('EasyReg.interestedCourses', courses);
+    };
     
     
- 
+    
   });

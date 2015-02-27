@@ -28,12 +28,9 @@
 		  	</div>
 		  	<!-- TODO onclick => add to drawer -->
 		  	<div ng-repeat="section in course.sections" ng-show="isGroupShown(course)">
-                <div ng-if="isSectionRegistered(course) === true">
-		  		{{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
-                </div>
-                <div ng-if="isSectionRegistered(course) !== true">
-		  		{{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
-                </div>
+                <a class="selectEach item" ng-class="section.isScheduled ? 'scheduledBar' : 'unscheduledBar'" ng-click="setScheduled(course, section)">
+                    {{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
+                </a>
 		  	</div>
   		</div>
   		
