@@ -21,7 +21,7 @@
  */
 var sectionEventBinder = []; // need to bind section with event
 var display = [];
-
+var courses;
 
 angular
   .module('main')
@@ -32,20 +32,21 @@ angular
 	  // if not registered, not conflicted, use color: yellow
 	  // if conflicted, use color: red
 	  supersonic.ui.views.current.whenVisible(function() {
-		  supersonic.logger.debug("calendar is now visible");
-		  supersonic.logger.debug(JSON.stringify(display));
+		  $scope.getJson();
 	  });
+	  
 	  $scope.getJson = function () {
 		  courses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
-		  supersonic.logger.debug(courses);
+		  
 		  $scope.courses = courses;
+		  var id = "";
 		  var title = "";
 		  var start = "";
 		  var end = "";
 		  var color = "";
+		  var textColor = "";
 		  for (var cour in courses) {
 			  var c = courses[cour];
-			  
 			  // isInterested, isScheduled, isRegistered, isConflicted
 			  if (c.isInterested && c.isScheduled) {
 				  var sections = c.sections;
@@ -54,10 +55,12 @@ angular
 						  var s = sections[sec];
 						  if (s.isRegistered) {
 							// get start time, end time, title
+							  id = s.SECTION_ID;
 							  title = c.SIS_COURSE_ID;
 							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
 							  end = getEndDateTime(s.DAY, s.END_TIME);
 							  color = "green";
+							  textColor = "black";
 							  break; // only one section can be registered
 						  }
 					  }
@@ -66,21 +69,25 @@ angular
 						  var s = sections[sec];
 						  if (s.isScheduled) {
 							  // get start time, end time, title
+							  id = s.SECTION_ID;
 							  title = c.SIS_COURSE_ID;
 							  start = getStartDateTime(s.DAY, s.BEGIN_TIME);
 							  end = getEndDateTime(s.DAY, s.END_TIME);
 							  color = "yellow";
+							  textColor = "black";
 							  break;// only one section can be scheduled
 						  }
 					  }
 				  }
-				  supersonic.logger.debug("Event Info: " + title + " " + start + " " + end + " " + color);
+//				  supersonic.logger.debug("Event Info: " + title + " " + start + " " + end + " " + color);
 				  var event = {
-		                	title  : title,
-		                	start  : start,
-		                	end    : end,
-		                	color : color
-		                };
+						  id: id,
+						  title: title + " " + id,
+						  start: start,
+						  end: end,
+						  color : color,
+						  textColor: textColor
+				  };
 				  display = event;
 				  $('#calendar').fullCalendar( 'renderEvent', event);
 			  } else if (c.isInterested && !c.isScheduled) { // interested, not scheduled on calendar
@@ -88,97 +95,45 @@ angular
 				  supersonic.logger.debug("do nothing on calendar");
 			  }
 		  }
-		  
-		  
 	  };
 
-	  var courses;
 	  
-	  
-	  var events = [
-	                {
-	                	title  : 'section1',
-	                	start  : '2015-02-25T08:30:00',
-	                	end    : '2015-02-25T13:30:00'
-	                },
-	                {
-	                	title  : 'section2',
-	                	start  : '2015-02-26T11:30:00',
-	                	end    : '2015-02-26T13:30:00'
-	                },
-	                {
-	                	title  : 'section3',
-	                	start  : '2015-02-27T11:30:00',
-	                	end    : '2015-02-27T13:30:00'
-//	                	color  : 'green',
-//	                	className: "myDraggable"
-	                }
-	            ];
-	  
-    
-    $('#calendar').fullCalendar({
-    	defaultView: "agendaWeek",
+	  $('#calendar').fullCalendar({
+		  defaultView: "agendaWeek",
     	
-    	// Triggered after AN EVENT has been placed on the calendar in its final position
-    	// the next three lines are crucial! They enable the drag feature on touch device!
-    	eventAfterRender: function(event, element, view) {
-    		
-    		addDraggable(element); // Must have!
-    		addDroppable(element); // TODO need to add drappable only once. but need to know the class name of each event
-    	},
-    	
+		  // Triggered after AN EVENT has been placed on the calendar in its final position
+		  // the next three lines are crucial! They enable the drag feature on touch device!
+		  eventAfterRender: function(event, element, view) {
+			  addDraggable(element); // Must have!
+			  addDroppable(element); // TODO need to add drappable only once. but need to know the class name of each event
+		  },
 					
-		// TODO
-    	weekends: false, // will hide Saturdays and Sundays,
-    	header: false,
+		  // TODO
+		  weekends: false, // will hide Saturdays and Sundays,
+		  header: false,
     	
-    	// businessHours EMPHASIZES
-//    	businessHours : {
-//    		start: '8:00', // a start time (10am in this example)
-//    	    end: '22:00', // an end time (6pm in this example)
-//
-//    	    dow: [ 1, 2, 3, 4 ]
-//    	}
+		  // The following options only apply to the agendaWeek and agendaDay views:
+		  allDaySlot: false,
+		  scrollTime: "9:00", // should set to earliest class
+		  minTime: "05:00:00",
     	
-    	// The following options only apply to the agendaWeek and agendaDay views:
-    	allDaySlot: false,
-    	scrollTime: "9:00", // should set to earliest class
-    	minTime: "05:00:00",
+		  columnFormat: "ddd",
+		  dayNamesShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
     	
-    	columnFormat: "ddd",
-    	dayNamesShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+		  editable : false, // must set false. 
+		  eventDurationEditable: false,
     	
-    	editable : false, // must set false. 
-//    	eventStartEditable: false,
-    	eventDurationEditable: false,
-    	
-    	dragScroll: false,
-    	
-    	// eventDragStart, Drop are developed using jQuery. NOT HERE!
-//    	eventDragStart : function(event, jsEvent, ui, view ){
-//
-//    	},
-//    	
-//    	eventDrop: function(event, delta, revertFunc) {
-//    		revertFunc();
-//        },
+		  dragScroll: false,
     	
     	
-    	eventClick: function(calEvent, jsEvent, view) {
-
-        }
+		  eventClick: function(calEvent, jsEvent, view) {
+			  
+		  }
 
     });
     
-
     $('#calendar').fullCalendar('option', 'height', calCalH(supersonic));
-    $scope.getJson();
     
-//    $('#calendar').fullCalendar( 'renderEvent', events[0]);
-//    $('#calendar').fullCalendar( 'renderEvent', events[1]);
-//    $('#calendar').fullCalendar( 'renderEvent', events[2]);
-    
-
   });
 
 /**
@@ -190,13 +145,9 @@ function calCalH (supersonic) {
 	
 	// find device height
 	var devH = window.screen.height; // 667 for iPhone6
-	
 	var calNavH = $("#calNav").height();
 	
 	var returnH = devH - calNavH - 20; // -20 for the status bar
-	// find 
-	
-	supersonic.logger.debug( "Total: " + devH + " " + calNavH + " " + returnH);
 	return returnH;
 }
 
@@ -239,19 +190,19 @@ function addDroppable (div) {
 //		activeClass: "areaActive",
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			// change registered color
-			// Find event
+			var secId = findSecId (ui);
 			
+			// change event view
+			var calEvent = $("#calendar").fullCalendar( 'clientEvents', secId )[0];
+			calEvent.color = "green";
+			$("#calendar").fullCalendar( 'updateEvent', calEvent);
 			
-			var triggeredUI = ui.draggable.html();
-			$( this ).find( "p" ).html( "Registered!" + triggeredUI);
+			// change data
 		},
 		over: function( event, ui ) {
-			$( this ).find( "p" ).html( "hovering..." );
 			$( this ).css("background-color", "red");
 		},
 		out: function( event, ui ) {
-			$( this ).find( "p" ).html( "hover out.." );
 			$( this ).css("background-color", "yellow");
 		}
 
@@ -263,7 +214,14 @@ function addDroppable (div) {
 //		activeClass: "areaActive",
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			$( this ).find( "p" ).html( "deleted!" );
+			var secId = findSecId (ui);
+			// remove event on calendar
+			$("#calendar").fullCalendar( 'removeEvents', secId );
+			
+			// delete course in backend and setItem
+			deleteCourse(secId);
+			
+			$( this ).find( "p" ).html( "Deleted secID: " + secId);
 		},
 		over: function( event, ui ) {
 			$( this ).find( "p" ).html( "hovering..." );
@@ -281,7 +239,14 @@ function addDroppable (div) {
 //		activeClass: "areaActive",
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			$( this ).find( "p" ).html( "removed!" );
+			var secId = findSecId (ui);
+			// remove event on calendar
+			$("#calendar").fullCalendar( 'removeEvents', secId );
+			
+			// modify course in backend and setItem
+			
+			
+			$( this ).find( "p" ).html( "Removed secID: " + secId);
 		},
 		over: function( event, ui ) {
 			$( this ).find( "p" ).html( "hovering..." );
@@ -294,7 +259,32 @@ function addDroppable (div) {
 	});
 }
 
+function findSecId (ui) {
+	var triggeredUI = ui.draggable.text();
+	var trigUiArr = triggeredUI.split(" ");
+	return trigUiArr[trigUiArr.length-1];
+}
 
+function deleteCourse (secId) {
+	var ctr = 0;
+	for (var course in courses) {
+		var c = courses[course];
+
+		var sections = c.sections;
+		for (var section in sections) {
+			var s = sections[section];
+			supersonic.logger.debug("secitn: " + s.SECTION_ID + " secID:" + secId + " " + s.SECTION_ID === secId);
+			if (s.SECTION_ID == secId) { //
+				courses.splice(ctr, 1);
+
+				supersonic.logger.debug("ctr: " + ctr);
+				window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(courses));
+				return;
+			}
+		}
+		ctr++;
+	}
+}
 
 function initAreas () {
 	var devW = window.screen.width;

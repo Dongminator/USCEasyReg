@@ -520,7 +520,7 @@ function filterUnit (supersonic, $scope) {
                 break;
             }
         }
-        supersonic.logger.debug( "Courses in Unit: " + JSON.stringify(courses));
+//        supersonic.logger.debug( "Courses in Unit: " + JSON.stringify(courses));
     }
 }
 
