@@ -96,7 +96,7 @@ angular
 	  };
 	  
 	  $scope.isSectionEnabled = function (section) {
-		  return section.isEnabledByDay && section.isEnabledByTime && section.isEnabledByUnits;
+		  return section.isEnabledByDay && section.isEnabledByTime;
 	  };
 	  
 	  
@@ -168,6 +168,8 @@ function selectModules (supersonic, $scope, $http) {
 						"COURSE_ID" : allCourses[i].COURSE_ID, 
 						"SIS_COURSE_ID" : allCourses[i].SIS_COURSE_ID, 
 						"TITLE" : allCourses[i].TITLE, 
+                        "MIN_UNITS": allCourses[i].MIN_UNITS,
+                        "MAX_UNITS": allCourses[i].MAX_UNITS,
 						"DESCRIPTION" : allCourses[i].DESCRIPTION,
 						"isEnabledByDay" : true, 
 						"isEnabledByTime" : true, 
@@ -218,7 +220,6 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 						"SEATS" : allSections[i].SEATS,
 						"isEnabledByDay" : true,
 						"isEnabledByTime" : true,
-						"isEnabledByUnits" : true,
 		        		"isInterested": false,
 		        		"isRegistered": false,
 		        		"isConflicted": false
@@ -252,7 +253,8 @@ function initLocalStorage () {
 	             {day: 'Saturday', selected: true, abbre : "U"},
 	             {day: 'Sunday', selected: true, abbre : "N"}
 	             ]; 
-	
+    
+	// Initialize time
 	var hours = [ 
 	             {hour: 'h1', selected: true, start: "00:00", end: "08:00", text: "Start before 08:00", abbre : "h1"}, 
 	             {hour: 'h2', selected: true, start: "08:00", end: "09:00", text: "08:00 - 09:00", abbre : "h2"}, 
@@ -262,10 +264,11 @@ function initLocalStorage () {
 	             {hour: 'h6', selected: true, start: "14:00", end: "16:00", text: "14:00 - 16:00", abbre : "h6"}, 
 	             {hour: 'h7', selected: true, start: "16:00", end: "18:00", text: "16:00 - 18:00", abbre : "h7"}, 
 	             {hour: 'h8', selected: true, start: "18:00", end: "20:00", text: "18:00 - 20:00", abbre : "h8"}, 
-	             {hour: 'h9', selected: true, start: "20:00", end: "22:06", text: "20:00 - 22:00", abbre : "h9"}, 
-	             {hour: 'h10', selected: true, start: "22:06", end: "23:59", text: "End after 22:00", abbre : "h10"}, 
+	             {hour: 'h9', selected: true, start: "20:00", end: "22:00", text: "20:00 - 22:00", abbre : "h9"}, 
+	             {hour: 'h10', selected: true, start: "22:00", end: "23:59", text: "End after 22:00", abbre : "h10"}, 
 	             ]; 
-	
+    
+	// Initialize Code
 	var levels = [
 	              {level: "1", selected: true, text: "1xx"},
 	              {level: "2", selected: true, text: "2xx"},
@@ -275,22 +278,24 @@ function initLocalStorage () {
 	              {level: "6", selected: true, text: "6xx"},
 	              {level: "7", selected: true, text: "7xx"}
 	              ];
-	
+    
+    // Initialize Units
+	var units = [
+                {unit: "1", selected: true, text: "1 unit"},
+                {unit: "2", selected: true, text: "2 unit"},
+                {unit: "3", selected: true, text: "3 unit"},
+                {unit: "4", selected: true, text: "4 unit"},
+                {unit: "5", selected: true, text: "5 unit"},
+                {unit: "6", selected: true, text: "6 unit and more"}
+                ]
 
 	window.localStorage.setItem('EasyReg.SelectDaysControllers.days', JSON.stringify(days));
 	window.localStorage.setItem('EasyReg.SelectHoursControllers.hours', JSON.stringify(hours));
 	window.localStorage.setItem('EasyReg.SelectLevelsControllers.levels', JSON.stringify(levels));
+    window.localStorage.setItem('EasyReg.SelectUnitsControllers.units', JSON.stringify(units));
 	window.localStorage.setItem('EasyReg.initialized', true);
 	window.localStorage.setItem('EasyReg.interestedCourses', "[]");
 	
-	
-	// Initialize time
-	
-	
-	// Initialize Units
-	
-	
-	// Initialize Code
 }
 
 
@@ -298,7 +303,7 @@ function runFilter (supersonic, $scope) {
 	filterDay(supersonic, $scope);
 	filterTime(supersonic, $scope);
 	filterLevel(supersonic, $scope); // 1xx, 2xx, 3xx, 4xx, 5xx
-//	filterUnit(supersonic, $scope);
+	filterUnit(supersonic, $scope);
 	
 }
 
@@ -486,8 +491,34 @@ function filterLevel (supersonic, $scope) {
 }
 
 
-function filterUnit () {
-	
+function filterUnit (supersonic, $scope) {
+	var courses = $scope.courses;
+    var selectedUnits = [];
+    var units = JSON.parse(window.localStorage.getItem('EasyReg.SelectUnitsControllers.units'));
+    
+    for(var unit in units){
+        if( units[unit].selected){
+            selectedUnits.push(units[unit].unit);
+        }
+    }
+    
+    for(var c in courses){
+        course = courses[c];        
+        var minUnit = course.MIN_UNITS;
+        var maxUnit = course.MAX_UNITS;
+        
+        course.isEnabledByUnits = false;
+        for(var u in selectedUnits){
+            if(selectedUnits[u] <= 5 && minUnit <= selectedUnits[u] && selectedUnits[u] <= maxUnit){//unit:1~5
+                course.isEnabledByUnits = true;
+                break;
+            }else if(selectedUnits[u] >= 6 && selectedUnits[u] <= minUnit){//unit:6+
+                course.isEnabledByUnits = true;
+                break;
+            }
+        }
+        supersonic.logger.debug( "Courses in Unit: " + JSON.stringify(courses));
+    }
 }
 
 
