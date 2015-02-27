@@ -16,19 +16,20 @@
 		<!-- filter:{} will match  -->
 	
 		<div ng-repeat="course in courses">
-			<div class="item item-divider RegCourseBkgd" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) === true">
+			<div class="item item-divider scheduledCourseBar" ng-click="toggleCourse(course)" ng-class="{'scheduledActive': isGroupShown(course)}" ng-if="course.isScheduled === true">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
 		  	</div>
-		  	<div class="item item-divider UnRegCourseBkgd" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) !== true">
+
+		  	<div class="item item-divider unscheduledCourseBar" ng-click="toggleCourse(course)" ng-class="{'unscheduledActive': isGroupShown(course)}" ng-if="course.isScheduled !== true">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
 		  	</div>
 		  	<!-- TODO onclick => add to drawer -->
 		  	<div ng-repeat="section in course.sections" ng-show="isGroupShown(course)">
-                <a class="selectEach item" ng-class="section.isScheduled ? 'scheduledBar' : 'unscheduledBar'" ng-click="setScheduled(course, section)">
+                <a class="selectEach item" ng-class="section.isScheduled ? 'scheduledSectionBar' : 'unscheduledSectionBar'" ng-click="setScheduled(course, section)">
                     {{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
                 </a>
 		  	</div>
