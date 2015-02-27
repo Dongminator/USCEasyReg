@@ -36,6 +36,7 @@ angular
 	  });
 	  
 	  $scope.getJson = function () {
+		  $("#calendar").fullCalendar( 'removeEvents' );
 		  courses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
 		  
 		  $scope.courses = courses;
@@ -208,27 +209,21 @@ function addDroppable (div) {
 
 	});
 	
-	// TODO delete button
+	// Delete course from calendar and interested list
 	$("#delArea").droppable({
 		accept: acceptDiv,
-//		activeClass: "areaActive",
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
 			var secId = findSecId (ui);
 			// remove event on calendar
 			$("#calendar").fullCalendar( 'removeEvents', secId );
-			
 			// delete course in backend and setItem
 			deleteCourse(secId);
-			
-			$( this ).find( "p" ).html( "Deleted secID: " + secId);
 		},
 		over: function( event, ui ) {
-			$( this ).find( "p" ).html( "hovering..." );
 			$( this ).css("background-color", "red");
 		},
 		out: function( event, ui ) {
-			$( this ).find( "p" ).html( "hover out.." );
 			$( this ).css("background-color", "yellow");
 		}
 	});
@@ -244,8 +239,7 @@ function addDroppable (div) {
 			$("#calendar").fullCalendar( 'removeEvents', secId );
 			
 			// modify course in backend and setItem
-			
-			
+			unscheduleCourse(secId);
 			$( this ).find( "p" ).html( "Removed secID: " + secId);
 		},
 		over: function( event, ui ) {
@@ -265,19 +259,33 @@ function findSecId (ui) {
 	return trigUiArr[trigUiArr.length-1];
 }
 
+function unscheduleCourse (secId) {
+	var ctr = 0;
+	for (var course in courses) {
+		var c = courses[course];
+		var sections = c.sections;
+		for (var section in sections) {
+			var s = sections[section];
+			if (s.SECTION_ID == secId) { //
+				s.isScheduled = false;
+				c.isScheduled = false;
+				window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(courses));
+				return;
+			}
+		}
+		ctr++;
+	}
+}
+
 function deleteCourse (secId) {
 	var ctr = 0;
 	for (var course in courses) {
 		var c = courses[course];
-
 		var sections = c.sections;
 		for (var section in sections) {
 			var s = sections[section];
-			supersonic.logger.debug("secitn: " + s.SECTION_ID + " secID:" + secId + " " + s.SECTION_ID === secId);
 			if (s.SECTION_ID == secId) { //
 				courses.splice(ctr, 1);
-
-				supersonic.logger.debug("ctr: " + ctr);
 				window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(courses));
 				return;
 			}
