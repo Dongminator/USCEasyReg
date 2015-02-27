@@ -2,8 +2,10 @@
 
 
 <div ng-controller="DrawerController">
-	<button class="button button-full button-assertive" onclick="closeDrawer('select-class')">Select Class</button>
-	<button class="button button-full button-assertive" onclick="closeDrawer('calendar')">Calendar</button>
+
+	<button class="button button-full bkgd" onclick="closeDrawer('select-class')"><img align="left"  src="/img/polygon.svg"><span class="caption1">Select Class</span></button>
+	 
+	<button class="button button-full button-assertive" onclick="closeDrawer('calendar')"><img align="left"  src="/img/polygon.svg">Calendar</button>
 	
 	<!-- use <super-navigate> anywhere to navigate to other pages, but it will be another view on top of the view stack-->
 	
@@ -14,15 +16,15 @@
 		<!-- filter:{} will match  -->
 	
 		<div ng-repeat="course in courses">
-			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) === true">
+			<div class="item item-divider RegCourseBkgd" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) === true">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
-	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
+	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
 		  	</div>
-		  	<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) !== true">
+		  	<div class="item item-divider UnRegCourseBkgd" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}" ng-if="isCourseRegistered(course) !== true">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
-	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
+	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
 		  	</div>
 		  	<!-- TODO onclick => add to drawer -->
 		  	<div ng-repeat="section in course.sections" ng-show="isGroupShown(course)">
