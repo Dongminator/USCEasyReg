@@ -37,10 +37,11 @@ module.exports =
   drawers:
     left:
       id: "leftDrawer"
-      location: "main#drawer"
+      location: "drawer#drawer"
       showOnAppLoad: false
     options:
       animation: "swingingDoor"
+      
 
   # Donglin: initialView is shown before app loads. should show our logo view. 
   # Donglin: can use as login view, or home view. 
