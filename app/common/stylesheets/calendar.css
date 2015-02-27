@@ -1,13 +1,3 @@
-.fc-axis span{
-        color: #9a2a1f;
-        font-size: 10px;
-        font-weight:400;
-    }
-    th{
-        color: #9a2a1f;
-        font-size: 10px;
-        font-weight:400;
-    }
     
 
 .calendarView {
@@ -21,14 +11,22 @@
 	
 }
 
+
+.fc-event {
+	position: absolute;
+	z-index: 3;
+}
+
 .calSpan {
 	width: 100px;
 	height: 100px;
 	background: green;
 	
-   position:absolute; 
-   top: 100px;
-   left: 200px;
+	position:absolute;
+	top: 100px;
+	left: 200px;
+	
+	z-index: 2;
 }
 
 .delBtn {
@@ -37,8 +35,11 @@
 	background: red; /* remove this. this line is only for testing the section is positioned correctly. */
 
 	position:absolute;
-	top: 400px;
+	top: 100px;
 	left: 50px;
+	z-index: 2;
+	opacity: 0.5;
+	display:none;
 }
 
 /*

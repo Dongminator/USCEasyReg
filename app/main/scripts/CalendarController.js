@@ -59,6 +59,7 @@ angular
     	// Triggered after AN EVENT has been placed on the calendar in its final position
     	// the next three lines are crucial! They enable the drag feature on touch device!
     	eventAfterRender: function(event, element, view) {
+    		
     		addDraggable(element); // Must have!
     		addDroppable(element); // TODO need to add drappable only once. but need to know the class name of each event
     	},
@@ -149,7 +150,13 @@ function calCalH (supersonic) {
 function addDraggable (div) {
 	div.draggable({
 		scroll: false,
-		revert: true
+		revert: true,
+		drag: function( event, ui ) {
+			$(".delBtn").show();
+		},
+		stop: function( event, ui ) {
+			$(".delBtn").hide();
+		}
 	});
 }
 
