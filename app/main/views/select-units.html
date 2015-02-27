@@ -1,0 +1,17 @@
+
+
+<!-- http://docs.appgyver.com/supersonic/guides/ui/components/#radio-buttons -->
+<!-- http://docs.appgyver.com/supersonic/guides/ui/components/#checkbox -->
+<!-- class="padding" removed. because with class="padding", swipe from eft to right will show drawer; without it, it shows previous screen. -->
+<div>
+	<ul class="list" ng-controller="SelectUnitsController">
+		<div ng-repeat="unit in units">
+			<li class="item item-checkbox">
+				<label class="checkbox">
+					<input type="checkbox" ng-model="unit.selected" ng-change="update()">
+				</label>
+	     		{{unit.text}}
+	  		</li>
+		</div>
+	</ul>
+</div>

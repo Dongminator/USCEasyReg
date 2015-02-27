@@ -178,6 +178,7 @@ angular
 //    $('#calendar').fullCalendar( 'renderEvent', events[1]);
 //    $('#calendar').fullCalendar( 'renderEvent', events[2]);
     
+
   });
 
 /**
