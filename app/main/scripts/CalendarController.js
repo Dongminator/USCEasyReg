@@ -57,7 +57,7 @@ angular
 						  var s = sections[sec];
 						  if (s.isRegistered) {
 							  for(var i =0; i< s.DAY.length; i=i+1){
-								  displayCalender(c.s,i,"green");
+								  displayCalender(c,s,i,"green");
 							  }
 							  
 							// get start time, end time, title
