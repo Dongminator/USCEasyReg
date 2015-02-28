@@ -16,7 +16,7 @@ module.exports =
 
   # Donglin: since we dont use tabs, we only need the rootView.
   rootView:
-  	location: "main#select-class"
+  	location: "tutorial#one"
 
   # Donglin: load all views (we only have about 3 views)
   preloads: [
@@ -46,6 +46,6 @@ module.exports =
   # Donglin: initialView is shown before app loads. should show our logo view. 
   # Donglin: can use as login view, or home view. 
   # Donglin: this is actually the login page
-#  initialView:
-#  	id: "initial-view"
-#  	location: "main#initial-view"
+  initialView:
+  	id: "initial-view"
+  	location: "main#initial-view"
