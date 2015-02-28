@@ -493,18 +493,22 @@ function getEndDateTime(day, time, i) {
 function checkAllConflict(){  
     var sectionList = getSectionList();
     
+    for(var k=0; k<sectionList.length; k++){
+        sectionList[k].isConflicted = false;
+    }
+    
     for(var i=0; i<sectionList.length; i++){
-        sectionList[i].isConflicted = false;
-        for(var j=0; j<sectionList.length; j++){
-            if(i !== j){
-                sectionList[j].isConflicted = false;
-                if(sectionList[i].BEGIN_TIME <= sectionList[j].END_TIME && sectionList[j].BEGIN_TIME <= sectionList[i].END_TIME){
-                    sectionList[i].isConflicted = true;
-                    sectionList[j].isConflicted = true;
-                    get1 = sectionList[i].isConflicted;
-                    get2 = sectionList[j].isConflicted;
+        for(var j=i+1; j<sectionList.length; j++){
+            for(var dayi = 0; dayi<sectionList[i].DAY.length; dayi++){
+                for(var dayj = 0; dayj<sectionList[j].DAY.length; dayj++){
+                    if(sectionList[i].DAY[dayi] == sectionList[j].DAY[dayj]){
+                        if(sectionList[i].BEGIN_TIME <= sectionList[j].END_TIME && sectionList[j].BEGIN_TIME <= sectionList[i].END_TIME){
+                            sectionList[i].isConflicted = true;
+                            sectionList[j].isConflicted = true;
+                        }
+                    }
                 }
-            }
+            }            
         }
     }    
 }
