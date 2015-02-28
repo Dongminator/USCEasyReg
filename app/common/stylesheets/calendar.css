@@ -20,10 +20,9 @@
 }
 
 #regArea, #delArea, #bacArea {
-	background: yellow;
 	position:absolute;
 	z-index: 2;
-	opacity: 0.5;
+	opacity: 0.3;
 	display: none;
 	-webkit-border-radius: 5em;
 	border-radius: 5em;
@@ -33,15 +32,6 @@
 	position:absolute;
 }
 
-
-/*
- * When user starts dragging calendar events.
- */
-.areaActive{
-	background-color:yellow;
-	-webkit-border-radius: 30px;
-    border-radius: 30px;
-}
 
 /*
  * When user drags the events inside the activation area
