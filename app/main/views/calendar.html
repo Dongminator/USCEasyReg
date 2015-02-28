@@ -4,16 +4,16 @@
 
 <div class="padding calendarView" ng-controller="CalendarController">
 	<div id="calNav">
-		<!-- <img style="position: absolute; margin-top: 10px; margin-left: 20px" src="/img/3bar.svg"/>
+		<!-- 
 		<img style="float: right; margin-right: 50px" src="/img/credit.svg"/> -->
-		<a class="item item-icon-right calButton" ng-click="navigate('select-days')">
-	      <i class="icon super-chatbubble-working"></i>
+		<a class="calButton" ng-click="navigate('select-days')">
+	      <img src="/img/3bar.svg"/>
 	    </a>
 		
 		<!-- Select Time -->
-		<a class="item item-icon-right calButtonRight" ng-click="navigate('select-hours')">
-			<i class="icon super-ios7-telephone-outline"></i>
-		</a>
+		<!-- <a class="calButtonRight" ng-click="navigate('select-hours')">
+	      <img src="/img/credits.png"/>
+		</a> -->
 	</div>
 	
 	<!-- three buttons floating on the calendar -->
@@ -23,16 +23,7 @@
 	<span id="bacArea"><img src="/img/cal-trash.png"><p></p></span>
 	
 	
-	<!-- Delete button -->
-	
-	<!-- Remove from calendar button -->
-	
-	
-      
     <div id="calendar"></div>
-    <!-- <div ui-calendar="uiConfig.calendar" class="padding calendar" ng-model="eventSources"></div>  -->
-    <!-- <div ui-calendar ng-model="eventSources"></div> -->
-    <!-- <div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div> -->
 </div>
 
 
