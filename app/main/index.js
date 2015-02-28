@@ -13,8 +13,8 @@ angular.module('main', [
 function dismissInitialView () {
 	var animation = supersonic.ui.animate("curlDown");
 	supersonic.ui.initialView.dismiss(animation);
-	
 }
+
 
 /*
  * Donglin: when closing the drawer, need to load the selected view. 

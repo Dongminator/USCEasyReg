@@ -22,10 +22,13 @@
 var sectionEventBinder = []; // need to bind section with event
 var display = [];
 var courses;
-
+var supersonica;
+var scope;
 angular
   .module('main')
   .controller('CalendarController', function($scope, supersonic) {
+    scope = $scope;
+    supersonica=supersonic;
 	  initAreas ();
 	  // Take courses from window.localStorage, put course title, section start, section end in each event
 	  // if registered, use color: green
@@ -35,7 +38,7 @@ angular
 		  supersonic.logger.debug("calendar shown");
 		  $scope.getJson();
 	  });
-	  
+	   
 	  supersonic.data.channel('public_announcements').subscribe( function(message) {
 		  supersonic.logger.debug("received a message " + message);
 		  $scope.getJson();
@@ -52,7 +55,8 @@ angular
 		  var end = "";
 		  var color = "";
 		  var textColor = "";
-		  
+		    
+          checkAllConflict();
 		  for (var cour in courses) {
 			  var c = courses[cour];
 			  // isInterested, isScheduled, isRegistered, isConflicted
@@ -81,7 +85,13 @@ angular
 						  var s = sections[sec];
 						  if (s.isScheduled) {
 							  for(var i =0; i< s.DAY.length; i=i+1){
-								  displayCalender(c,s,i,"#DD8B12");
+                                  if(s.isConflicted){
+                                      s1 = s.SECTION_ID;
+                                      displayCalender(c,s,i,"#C36256");
+                                  }else{
+                                      s2 = s.SECTION_ID;
+                                      displayCalender(c,s,i,"#DD8B12");
+                                  }
 							  }
 							  // get start time, end time, title
 //							  id = s.SECTION_ID;
@@ -92,6 +102,7 @@ angular
 //							  textColor = "black";
 							  break;// only one section can be scheduled
 						  }
+                          
 					  }
 				  }
 //				  supersonic.logger.debug("Event Info: " + title + " " + start + " " + end + " " + color);
@@ -147,6 +158,8 @@ angular
     });
     
     $('#calendar').fullCalendar('option', 'height', calCalH(supersonic));
+    
+    
     
   });
 
@@ -229,15 +242,18 @@ function addDroppable (div) {
 		accept: acceptDiv,
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			var secId = findSecId (ui);
-			
-			// change event view
-			var calEvent = $("#calendar").fullCalendar( 'clientEvents', secId )[0];
-			calEvent.color = "#75AD9E";
-			$("#calendar").fullCalendar( 'updateEvent', calEvent);
+            var secId = findSecId (ui);
+            var calEvent = $("#calendar").fullCalendar( 'clientEvents', secId )[0];
+            var sectionList = getSectionList();
+            var index = indexOfSectionId(sectionList, secId);
+            // change event view           
+            if(!sectionList[index].isConflicted){
+                calEvent.color = "#75AD9E";                
+                $("#calendar").fullCalendar( 'updateEvent', calEvent);
+                scheduleCourse (secId);
+            }
 			
 			// change data
-			scheduleCourse (secId);
 			$( this ).css("background-color", hoverYellow);
 		},
 		over: function( event, ui ) {
@@ -254,12 +270,14 @@ function addDroppable (div) {
 		accept: acceptDiv,
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			var secId = findSecId (ui);
+			var secId = findSecId (ui);            
 			// remove event on calendar
 			$("#calendar").fullCalendar( 'removeEvents', secId );
 			// delete course in backend and setItem
-			deleteCourse(secId);
+			deleteCourse(secId);   
+            scope.getJson();
 			$( this ).css("background-color", hoverYellow);
+
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
@@ -269,17 +287,23 @@ function addDroppable (div) {
 		}
 	});
 	
-	// Femove from calendar button
+	// Remove from calendar button
 	$("#bacArea").droppable({
 		accept: acceptDiv,
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
-			var secId = findSecId (ui);
-			// remove event on calendar
-			$("#calendar").fullCalendar( 'removeEvents', secId );
+			var secId = findSecId (ui); 
+            var sectionList = getSectionList();
+            var index = indexOfSectionId(sectionList, secId);
+			// remove event on calendar			
 			// modify course in backend and setItem
-			unscheduleCourse(secId);
+            if(!sectionList[index].isRegistered){
+                $("#calendar").fullCalendar( 'removeEvents', secId );
+                unscheduleCourse(secId);            
+                scope.getJson();
+            }
 			$( this ).css("background-color", hoverYellow);
+
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
@@ -324,6 +348,7 @@ function unscheduleCourse (secId) {
 		for (var section in sections) {
 			var s = sections[section];
 			if (s.SECTION_ID == secId) { //
+                s.isConflicted = false;
 				s.isScheduled = false;
 				c.isScheduled = false;
 				window.localStorage.setItem('EasyReg.interestedCourses', JSON.stringify(courses));
@@ -464,6 +489,74 @@ function getEndDateTime(day, time, i) {
         return "2015-03-01T" + time + ":00";
 	}
 }
+////////////////////////////////////////////////////////////////////////////////////////////////
+function checkAllConflict(){  
+    var sectionList = getSectionList();
+    
+    for(var i=0; i<sectionList.length; i++){
+        sectionList[i].isConflicted = false;
+        for(var j=0; j<sectionList.length; j++){
+            if(i !== j){
+                sectionList[j].isConflicted = false;
+                if(sectionList[i].BEGIN_TIME <= sectionList[j].END_TIME && sectionList[j].BEGIN_TIME <= sectionList[i].END_TIME){
+                    sectionList[i].isConflicted = true;
+                    sectionList[j].isConflicted = true;
+                    get1 = sectionList[i].isConflicted;
+                    get2 = sectionList[j].isConflicted;
+                }
+            }
+        }
+    }    
+}
+
+function getSectionList(){
+    var list = [];
+    for(var c=0; c<courses.length; c++){
+        for(var s=0; s<courses[c].sections.length; s++){
+            if(courses[c].sections[s].isScheduled){                  
+                list.push(courses[c].sections[s]);
+            }
+        }
+    }   
+    return list;
+}
+
+function indexOfSectionId(sectionList, id){
+    for(var s=0; s<sectionList.length; s++){
+        if(sectionList[s].SECTION_ID==id){
+            return s;
+        }
+    }
+}
+
+
+
+
+/*
+function deleteConflict(event) {
+    var allEvents = $('#calendar').fullCalendar('clientEvents');
+    var theSection = getSection(event.SECTION_ID);
+    for(var i=0; i<allEvents.length; i++){
+        var otherSection = getSection(allEvents[i].SECTION_ID);
+        removeFromList(theSection.isConflicted, otherSection.SECTION_ID);
+        removeFromList(otherSection.isConflicted, theSection.SECTION_ID);
+    }
+}*/
+
+
+/*
+function removeFromList(list, item){
+    var index = indexOfList(list, item);
+    if(index > -1){
+        list.splice(index, 1);
+        return true;
+    }
+    return false;
+}*/
+
+
+
+
 //var myAppModule = angular.module('main', ['ui.calendar']);
 //
 //function CalendarController($scope,$compile,uiCalendarConfig) {
