@@ -1,10 +1,7 @@
-
 angular
   .module('main')
   .controller('SelectClassController', function($scope, supersonic, $http) {
-	  $scope.navbarTitle = "Select Class"; 
-	  
-	  
+	
 	  $scope.findSchool = function () {
 		  var school = supersonic.data.model('school');
 		  // TODO find all schools at backend. Currently schools are stored at the end of this file.
@@ -149,10 +146,9 @@ angular
 		  
 	  };
 	  
-	  
-
 	  $scope.findSchool();
-  });
+});
+
 
 /*
  * http://petri.esd.usc.edu/socAPI/Courses/[TERM]/[OPTIONS]
@@ -244,11 +240,6 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 					};
 				}
 				
-				// TODO FAKE! Should change based on the number of registered students
-//				var leftPercent = Math.floor((Math.random() * 99) + 1);
-//				var rightPercent = 100 - leftPercent;
-				// usc yellow : #FFCC00
-//				$("#10594").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
 			}
 			$scope.courses[index].sections = sectionsObjects;
 			
@@ -263,7 +254,6 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 			var rightPercent = 100 - leftPercent;
 			// usc yellow : #FFCC00
 			$(".selectEach").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
-		
 		}).
 		error(function(data, status, headers, config) {
 			supersonic.logger.debug( status );
