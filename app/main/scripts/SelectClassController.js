@@ -179,7 +179,7 @@ function selectModules (supersonic, $scope, $http) {
 		        		"isInterested": false,
 		        		"isScheduled": false,
 		        		"isRegistered": false,
-		        		"isConflicted": []
+		        		"isConflicted": false
 				};
 	    	  
 				// select select sections for each course
@@ -225,7 +225,7 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 		        		"isInterested": false,
 		        		"isScheduled": false,
 		        		"isRegistered": false,
-		        		"isConflicted": []
+		        		"isConflicted": false
 				};
 			}
 			$scope.courses[index].sections = sectionsObjects;

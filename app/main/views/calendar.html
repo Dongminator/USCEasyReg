@@ -1,7 +1,6 @@
 <!-- Donglin: we dont need a nav bar on top -->
 
 
-
 <div class="padding calendarView" ng-controller="CalendarController">
 	<div id="calNav">
 		<!-- 
@@ -10,6 +9,10 @@
 	      <img src="/img/3bar.svg"/>
 	    </a>
 		
+        <a class="calButton" ng-click="print()">
+	      <img src="/img/3bar.svg"/>
+        </a>
+        
 		<!-- Select Time -->
 		<!-- <a class="calButtonRight" ng-click="navigate('select-hours')">
 	      <img src="/img/credits.png"/>
@@ -18,7 +21,7 @@
 	
 	<!-- three buttons floating on the calendar -->
 	<!-- Register button -->
-	<span id="regArea"><img src="/img/cal-trash.png"><p></p></span>
+    <span id="regArea"><img src="/img/cal-trash.png"><p></p></span>
 	<span id="delArea"><img src="/img/cal-trash.png"><p></p></span>
 	<span id="bacArea"><img src="/img/cal-trash.png"><p></p></span>
 	

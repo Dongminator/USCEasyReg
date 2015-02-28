@@ -22,10 +22,12 @@
 var sectionEventBinder = []; // need to bind section with event
 var display = [];
 var courses;
+var supersonica;
 
 angular
   .module('main')
   .controller('CalendarController', function($scope, supersonic) {
+    supersonica=supersonic;
 	  initAreas ();
 	  // Take courses from window.localStorage, put course title, section start, section end in each event
 	  // if registered, use color: green
@@ -36,6 +38,20 @@ angular
 		  $scope.getJson();
 	  });
 	  
+    $scope.print = function(){
+        /*supersonic.logger.debug("getha:"+getha);
+        supersonic.logger.debug("gethaha:"+gethaha);
+        supersonic.logger.debug("geth1:"+get1);
+        supersonic.logger.debug("sectionList.length:"+sectionList.length);
+        for(var s=0; s<sectionList.length; s++){
+            supersonic.logger.debug("section: "+sectionList[s].SECTION_ID+": "+sectionList[s].isConflicted);
+        }*/
+        for(var c=0; c<courses.length; c++){
+            supersonic.logger.debug("courses["+c+"].sections.length:"+courses[c].sections.length);            
+        }
+    }
+    
+    
 	  supersonic.data.channel('public_announcements').subscribe( function(message) {
 		  supersonic.logger.debug("received a message " + message);
 		  $scope.getJson();
@@ -52,7 +68,8 @@ angular
 		  var end = "";
 		  var color = "";
 		  var textColor = "";
-		  
+		    
+          checkAllConflict();
 		  for (var cour in courses) {
 			  var c = courses[cour];
 			  // isInterested, isScheduled, isRegistered, isConflicted
@@ -80,12 +97,12 @@ angular
 					  for (var sec in sections) {
 						  var s = sections[sec];
 						  if (s.isScheduled) {
-							  for(var i =0; i< s.DAY.length; i=i+1){
-                                  if(s.isConflicted.length > 0){
-                                    displayCalender(c,s,i,"red");
-                                  }else{
+							  for(var i =0; i< s.DAY.length; i=i+1){    
+                                  //if(s.isConflicted){
+                                  //  displayCalender(c,s,i,"red");
+                                  //}else{
 								    displayCalender(c,s,i,"yellow");
-                                  }
+                                  //}
 							  }
 							  // get start time, end time, title
 //							  id = s.SECTION_ID;
@@ -152,6 +169,8 @@ angular
     });
     
     $('#calendar').fullCalendar('option', 'height', calCalH(supersonic));
+    
+    
     
   });
 
@@ -232,16 +251,13 @@ function addDroppable (div) {
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
 			var secId = findSecId (ui);
-            ////////////////////////////////////////
-			setConflict(event);
-            ////////////////////////////////////////
             
 			// change event view
 			var calEvent = $("#calendar").fullCalendar( 'clientEvents', secId )[0];
-            var theSection = getSection(secId);
-            if(theSection.isConflicted.length < 0){
+            //var theSection = getSection(secId);
+            //if(!theSection.isConflicted){
                 calEvent.color = "green";
-            }
+            //}
             
 			$("#calendar").fullCalendar( 'updateEvent', calEvent);
 			
@@ -265,7 +281,7 @@ function addDroppable (div) {
 		drop: function( event, ui ) {
 			var secId = findSecId (ui);
             ////////////////////////////////////////
-            //deleteConflict(event);
+            //checkAllConflict();
             ////////////////////////////////////////
 			// remove event on calendar
 			$("#calendar").fullCalendar( 'removeEvents', secId );
@@ -290,7 +306,7 @@ function addDroppable (div) {
 		drop: function( event, ui ) {
 			var secId = findSecId (ui); 
             ////////////////////////////////////////
-            //deleteConflict(event);
+            //checkAllConflict();
             ////////////////////////////////////////
 			// remove event on calendar
 			$("#calendar").fullCalendar( 'removeEvents', secId );
@@ -473,31 +489,130 @@ function getEndDateTime(day, time, i) {
         return "2015-03-01T" + time + ":00";
 	}
 }
+//var allEvents = [];
+//var sectionList = [];
+var getha=false;
+var gethaha =false;
+////////////////////////////////////////////////////////////////////////////////////////////////
+function getSectionList(){
+    var list = [];
+    for(var c=0; c<courses.length; c++){
+        for(var s=0; s<courses[c].sections.length; s++){
+            if(courses[c].sections[s].isScheduled){
+                list.push(courses[c].sections[s]);
+            }
+        }
+    }
+    return list;
+}
 
-function setConflict(event) { 
-    var start = new Date(event.start);
-    var end = new Date(event.end);
-    var theSection = getSection(event);
+function checkAllConflict(){   
+    //allEvents = [];
+    var sectionList = getSectionList();
+    for(var i=0; i<sectionList.length; i++){
+        section[i].isConflicted = false;
+        for(var j=i+1; j<sectionList.length; j++){
+            section[j].isConflicted = false;
+            if(section[i].start < section[j].end && section[j].start < section[i].end){
+                section[i].isConflicted = true;
+                section[j].isConflicted = true;
+            }
+        }
+    }
+    /*for(var c=0; c<courses.length; c++){
+        for(var s=0; s<courses[c].sections.length; s++){
+            pushList(allEvents, $("#calendar").fullCalendar('clientEvents', courses[c].sections[s].SECTION_ID));
+        }
+    }
+    
+    
+    
+    sectionList = getSectionList(allEvents);
+    for(var s=0; s<sectionList.length; s++){
+        sectionList[s].isConflicted = false;
+    }
+    
+    for(var e=0; e<allEvents.length; e++){
+        checkEventConflict(allEvents[e]);
+    }*/
+}
+
+
+/*
+function checkEventConflict(event) { 
+    //var theSection = serchSectionById(event.SECTION_ID);
+    var theSection = getSection(event.id);
     var otherSection;
-    var overlapEvents;
-    var overlap = $('#calendar').fullCalendar('clientEvents', function(ev) {
-        if( ev === event){
+    var overlapEvents;    
+    var overlap = $("#calendar").fullCalendar('clientEvents', function(ev) {
+        if( ev == event){
             return false;
         }
         //isConflicted
-        var estart = new Date(ev.start);
-        var eend = new Date(ev.end);
-        return (Math.round(estart)/1000 < Math.round(end)/1000 && Math.round(eend) > Math.round(start));
+        return (ev.start< event.end && ev.end > event.start);
     });
-    //overlap[i] is an event object
+    //overlap[i] is an event object    
     for(var i=0; i<overlap.length; i++){          
-        otherSection = getSection(overlap[i]);
-        pushConflict(theSection.isConflicted, otherSection.SECTION_ID);
-        pushConflict(otherSection.isConflicted, theSection.SECTION_ID);
-        }
-}                  
-  
+        //otherSection = searchSectionById(overlap[i].SECTION_ID);
+        otherSection = getSection(overlap[i].id);
+        theSection.isConflicted = true;
+        otherSection.isConflicted = true;
+    }
+}                
 
+var get1;
+function getSectionList(allEvents){
+    var list = [];
+    for(var e=0; e<allEvents.length; e++){
+        pushList(list, getSection(allEvents[e].id));
+    }
+    return list;
+}
+
+
+
+function getSection(id){
+    for(var c=0; c<courses.length; c++){
+        for(var s=0; s<courses[c].sections.length; s++){
+            get1 = courses[c].sections.length;
+            if(courses[c].sections[s].SECTION_ID == id){
+                gethaha=true;
+                return courses[c].sections[s];
+            }
+        }
+    }
+}
+
+function indexOfList(list, item) {
+    for(var i=0; i<list.length; i++){
+        if(list[i] == item){
+            return i;
+        }
+    }
+    return -1;
+}
+
+function pushList(list, item){
+    if(indexOfList(list, item) < 0){
+        list.push(item);
+    }
+}
+
+function searchSectionById(id){
+    for(var s=0; s<sectionList.length; s++){
+        if(sectionList[s].SECTION_ID == id){
+            return sectionList[s];
+        }
+    }
+}*/
+  ////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+/*
 function deleteConflict(event) {
     var allEvents = $('#calendar').fullCalendar('clientEvents');
     var theSection = getSection(event.SECTION_ID);
@@ -506,17 +621,10 @@ function deleteConflict(event) {
         removeFromList(theSection.isConflicted, otherSection.SECTION_ID);
         removeFromList(otherSection.isConflicted, theSection.SECTION_ID);
     }
-}
+}*/
 
-function indexOfList(list, item) {
-    for(var i=0; i<list.length; i++){
-        if(list[i] === item){
-            return i;
-        }
-    }
-    return -1;
-}
 
+/*
 function removeFromList(list, item){
     var index = indexOfList(list, item);
     if(index > -1){
@@ -524,23 +632,10 @@ function removeFromList(list, item){
         return true;
     }
     return false;
-}
+}*/
 
-function getSection(id){
-    for(var c in courses){
-        for(var s in courses[c].sections){
-            if(courses[c].sections[s].SECTION_ID === id){
-                return courses[c].sections[s]
-            }
-        }
-    }
-}
 
-function pushConflict(list, item){
-    if(indexOfList(list, item) < 0){
-        list.push(item);
-    }
-}
+
 
 //var myAppModule = angular.module('main', ['ui.calendar']);
 //
