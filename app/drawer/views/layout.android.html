@@ -5,16 +5,24 @@
 
   <title><%= yield.viewName %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
   <link rel="stylesheet" href="/components/supersonic/css/supersonic.css" />
-  <link rel="stylesheet" href="/app/common/stylesheets/application.css" />
+  <link rel="stylesheet" href="/app/common/stylesheets/drawer.css" />
   <link rel="import" href="/components/supersonic/components/import.html">
 
+
+  <script src="/components/jquery/dist/jquery.min.js"></script>
   <script src="http://localhost/cordova.js"></script>
   <script src="/components/steroids-js/steroids.js"></script>
   <script src="/components/angular/angular.js"></script>
   <script src="/components/supersonic/supersonic.js"></script>
   <script src="/components/webcomponentsjs/webcomponents.js"></script>
+  
+  
+  
+  <script src="/components/moment/min/moment.min.js"></script>
+  <script type='text/javascript' src='http://arshaw.com/js/fullcalendar-1.5.4/fullcalendar/fullcalendar.min.js'></script>
+  <link rel='stylesheet' type='text/css' href='http://arshaw.com/js/fullcalendar-1.5.4/fullcalendar/fullcalendar.css' />
+  <!-- <script src="/components/fullcalendar/dist/fullcalendar.js"></script> -->
 
   <% _.each(yield.modules, function(module) { %>
   <script src="/app/<%= module %>.js"></script>

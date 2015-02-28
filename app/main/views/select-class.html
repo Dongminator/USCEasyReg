@@ -119,6 +119,18 @@
 		   	<div class="sectionDiv"  >
 		  		<a class="selectEach item" ><img class="sectionType" src="/img/D.png">12:00 - 14:00 Tuesday</a>
 		  	</div>
+		  	<script>
+		  	$( ".sectionDiv" ).click(function() {
+		  	  $( this ).animate({
+		  	    width: [ "toggle", "swing" ],
+		  	    height: [ "toggle", "swing" ],
+		  	    opacity: "toggle"
+		  	  }, 5000, "linear", function() {
+		  	    $( this ).after( "<div>Animation complete.</div>" );
+		  	  });
+		  	});
+		  	
+		  	</script>
   			
   		</div>
   		

@@ -32,6 +32,12 @@ angular
 	  // if not registered, not conflicted, use color: yellow
 	  // if conflicted, use color: red
 	  supersonic.ui.views.current.whenVisible(function() {
+		  supersonic.logger.debug("calendar shown");
+		  $scope.getJson();
+	  });
+	  
+	  supersonic.data.channel('public_announcements').subscribe( function(message) {
+		  supersonic.logger.debug("received a message " + message);
 		  $scope.getJson();
 	  });
 	  
