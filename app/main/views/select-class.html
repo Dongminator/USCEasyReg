@@ -74,7 +74,7 @@
 		<!-- filter:{} will match  -->
 	
 		<div ng-repeat="course in courses | filter:isCourseEnabled">
-			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}">
+			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{'expandactive': isGroupShown(course)}">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		<span class="courseCode">{{course.SIS_COURSE_ID}}</span> <span class="courseTitle">{{course.TITLE}}</span>
@@ -86,10 +86,10 @@
 		  		<!-- <a class="item" ng-click="addCourse(course, section)" ng-switch="section.DAY">{{section.BEGIN_TIME}} - {{section.END_TIME}} DAY: {{}}</a>
 		  		 -->
 		  		 <!-- TODO Type Lab!!! -->
-		  		<a id="{{section.SECTION_ID}}" class="selectEach item" ng-click="addCourse(course, section)"><!-- <img class="sectionType" src="/img/Lecture.png"> --><span>{{section.BEGIN_TIME}} - {{section.END_TIME}} - {{section.SECTION_ID}}</span><span class="align-right">{{section.DAY}}</span></a>
+		  		<a id="{{section.SECTION_ID}}" class="selectEach item" ng-click="addCourse(course, section, $event)"><!-- <img class="sectionType" src="/img/Lecture.png"> --><span>{{section.SECTION_ID}}: {{section.BEGIN_TIME}} - {{section.END_TIME}}</span><span class="align-right">{{section.DAY}}</span></a>
 		  	</div>
-  		</div>
-  		
+  		</div> 
+  		<span id="flyout"><img src="/img/trojan.png"></span>
   		
   		<!-- fake -->
   		<!-- <div>

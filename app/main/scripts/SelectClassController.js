@@ -106,9 +106,19 @@ angular
 		  runFilter (supersonic, $scope);
 	  });
 	  
-	  
-	  $scope.addCourse = function (course, section) {
-		  
+//	  $scope.flyoutt = function(event) {
+//		  
+//	  }
+	  $scope.addCourse = function (course, section, event) {
+		  $("#flyout").css("left",event.x);
+		  $("#flyout").css("top",event.y);
+		  $("#flyout").show();
+		  var devH = window.screen.height/4;
+		  $("#flyout").animate({
+	            opacity: '0.5',
+	            top: devH,
+	            left: "-200px"
+	        }, "slow");
 		  var interestedCourses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
 		  var courseAlreadyExist = false;
 		  
