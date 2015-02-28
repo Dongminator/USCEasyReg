@@ -6,13 +6,22 @@ body {
 .bkgd {
 	background-color: #9a2a1f;
 	border-width: 0px;
-
 }
 
-.UnRegCourseBkgd {
-	background-color: #7d0022;
-	border-width: 0px;
+.scheduledCourseBar {
+    background-color: #7d0022;
+    border-color:#BD8925;
+    border-width: 2px;
+    border-right: 0px;
+    border-left: 0px;
+}
 
+.unscheduledCourseBar {    
+	background-color: #9a2a1f;
+    border-color:#BD8925;
+    border-width: 2px;
+    border-right: 0px;
+    border-left: 0px;
 }
 
 .bkgd .caption1 {
@@ -25,10 +34,23 @@ body {
 	font-size: 16px;
 }
 
-.scheduledBar {
+.scheduledActive{
     background-color: #7d0022;
 }
-
-.unscheduledBar {
+.unscheduledActive {
     background-color: #9a2a1f;
+}
+
+.scheduledSectionBar {    
+    position: relative;
+    margin-top: 1px;
+    background-color: #7d0022;
+    border-width: 0px;
+}
+
+.unscheduledSectionBar {
+    position: relative;
+    margin-top: 1px;
+    background-color: #9a2a1f;
+    border-width: 0px;
 }
