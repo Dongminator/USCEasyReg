@@ -4,8 +4,10 @@
  ***********************************************************/
 
 navigation-bar {
-  background-color: #ff5555;
-  color: #ff4444;
+ /*  background-color: #ff5555; */
+  background-color: #991b1e;
+/* color: #ff4444;  */
+  color: #dd8605;
 }
 
 navigation-bar title {
@@ -15,7 +17,7 @@ navigation-bar title {
 }
 
 navigation-bar button, navigation-bar back-bar-button {
-  color: #4725fb;
+  color: #4725fb; 
   font-weight: 300;
 }
 
