@@ -229,10 +229,10 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 				};
 				
 				// TODO FAKE! Should change based on the number of registered students
-				var leftPercent = Math.floor((Math.random() * 99) + 1);
-				var rightPercent = 100 - leftPercent;
+//				var leftPercent = Math.floor((Math.random() * 99) + 1);
+//				var rightPercent = 100 - leftPercent;
 				// usc yellow : #FFCC00
-				$("#10594").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
+//				$("#10594").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
 			}
 			$scope.courses[index].sections = sectionsObjects;
 			
@@ -242,6 +242,12 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 			} else {
 //				supersonic.logger.debug("Retrieved: " + $scope.queriedCourses);
 			}
+			
+			var leftPercent = Math.floor((Math.random() * 99) + 1);
+			var rightPercent = 100 - leftPercent;
+			// usc yellow : #FFCC00
+			$(".selectEach").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
+		
 		}).
 		error(function(data, status, headers, config) {
 			supersonic.logger.debug( status );

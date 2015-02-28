@@ -1,3 +1,4 @@
+
 .supersonic-navbar-mock {
   background-color: #00B5FF !important;
   text-align: center;
@@ -39,6 +40,8 @@
     border-style: solid;
     border-color: #EEC9B7;
     margin-bottom: 2px;
+    /* background: linear-gradient(to right, #EEC9B7 70%, #FFF 30%); */
+ 
 }
 
 
