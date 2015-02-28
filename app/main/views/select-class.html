@@ -39,27 +39,27 @@
 		
 		<!-- Select Days: Monday, Tuesday,  -->
 		<a class="item item-icon-right inlineDisplay" ng-click="navigate('select-days')">
-	      Select Days
+	      Day
 	      <i class="icon icon-accessory super-chevron-right"></i>
 	    </a>
 		
 		<!-- Select Time -->
 		<a class="item item-icon-right inlineDisplayRight" ng-click="navigate('select-hours')">
-			Select Time
+			Time
 			<i class="icon icon-accessory super-chevron-right"></i>
 		</a>
 	
 		<!-- Select Code -->
 		
 		<a class="item item-icon-right inlineDisplay" ng-click="navigate('select-levels')">
-			Select Code
+			Level
 			<i class="icon icon-accessory super-chevron-right"></i>
 		</a>
 		
 		
 		<!-- Select Unit -->
 		<a class="item item-icon-right inlineDisplayRight" ng-click="navigate('select-units')">
-			Select Units
+			Unit
 			<i class="icon icon-accessory super-chevron-right"></i>
 		</a>
 			
@@ -74,10 +74,10 @@
 		<!-- filter:{} will match  -->
 	
 		<div ng-repeat="course in courses | filter:isCourseEnabled">
-			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{active: isGroupShown(course)}">
+			<div class="item item-divider" ng-click="toggleCourse(course)" ng-class="{'expandactive': isGroupShown(course)}">
 	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
-	    		{{course.SIS_COURSE_ID}} {{course.TITLE}}
+	    		<span class="courseCode">{{course.SIS_COURSE_ID}}</span> <span class="courseTitle">{{course.TITLE}}</span>
 		  	</div>
 		  	
 		  	<!-- TODO onclick => add to drawer -->
@@ -86,32 +86,20 @@
 		  		<!-- <a class="item" ng-click="addCourse(course, section)" ng-switch="section.DAY">{{section.BEGIN_TIME}} - {{section.END_TIME}} DAY: {{}}</a>
 		  		 -->
 		  		 <!-- TODO Type Lab!!! -->
-		  		<a class="selectEach item" ng-click="addCourse(course, section)"><img class="sectionType" src="/img/Lecture.png"><span>{{section.BEGIN_TIME}} - {{section.END_TIME}}</span><span class="align-right">{{section.DAY}}</span></a>
+		  		<a id="{{section.SECTION_ID}}" class="selectEach item" ng-click="addCourse(course, section, $event)"><!-- <img class="sectionType" src="/img/Lecture.png"> --><span>{{section.SECTION_ID}}: {{section.BEGIN_TIME}} - {{section.END_TIME}}</span><span class="align-right">{{section.DAY}}</span></a>
 		  	</div>
-  		</div>
-  		
+  		</div> 
+  		<span id="flyout"><img src="/img/trojan.png"></span>
   		
   		<!-- fake -->
-  		<div><!-- course -->
-  			<div class="item item-divider" >
-  				<i class="icon" ng-class="super-arrow-down-b"></i>
-	    		&nbsp;
-	    		CMGT-501 Communication Management...
-  			</div>
-  			
-		  	<div class="sectionDiv"  >
-		  		<a class="selectEach item" ><img class="sectionType" src="/img/D.svg"><span>19:00 - 20:00</span><span class="align-right">Monday</span></a>
-		  	</div>
-  			
-  		</div>
-  		<div><!-- course -->
+  		<!-- <div>
   			<div class="item item-divider" >
   				<i class="icon" ng-class="super-arrow-down-b"></i>
 	    		&nbsp;
 	    		CMGT-502 Algorigthms etc...
   			</div>
   			
-  			<!-- sections -->
+  			sections
 		  	<div class="sectionDiv"  >
 		  		<a class="selectEach item" ><img class="sectionType" src="/img/3bar.svg">09:00 - 12:00 Tuesday</a>
 		  	</div>
@@ -119,20 +107,7 @@
 		   	<div class="sectionDiv"  >
 		  		<a class="selectEach item" ><img class="sectionType" src="/img/D.png">12:00 - 14:00 Tuesday</a>
 		  	</div>
-		  	<script>
-		  	$( ".sectionDiv" ).click(function() {
-		  	  $( this ).animate({
-		  	    width: [ "toggle", "swing" ],
-		  	    height: [ "toggle", "swing" ],
-		  	    opacity: "toggle"
-		  	  }, 5000, "linear", function() {
-		  	    $( this ).after( "<div>Animation complete.</div>" );
-		  	  });
-		  	});
-		  	
-		  	</script>
-  			
-  		</div>
+  		</div> -->
   		
 	</div>
 	

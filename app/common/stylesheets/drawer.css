@@ -1,25 +1,29 @@
 body {
-	background-color: #9a2a1f;
+	/* background-color: #9a2a1f; */
+	background-color: #991b1e;
 	/* background-color:#990000; */
 }
 
 .bkgd {
-	background-color: #9a2a1f;
+	/* background-color: #9a2a1f; */
+	background-color: #991b1e;
 	border-width: 0px;
 }
 
 .scheduledCourseBar {
     background-color: #7d0022;
-    border-color:#BD8925;
-    border-width: 2px;
+    border-color:#991b1e;
+    border-width: 0px;
     border-right: 0px;
     border-left: 0px;
 }
 
-.unscheduledCourseBar {    
-	background-color: #9a2a1f;
-    border-color:#BD8925;
-    border-width: 2px;
+.unscheduledCourseBar { 
+	background-color: #991b1e;
+	border-color: #991b1e;
+/* 	background-color: #9a2a1f;
+    border-color:#BD8925; */
+    border-width: 0px;
     border-right: 0px;
     border-left: 0px;
 }
@@ -27,18 +31,27 @@ body {
 .bkgd .caption1 {
 	color: white;
 	font-size: 24px;
+	font-family: "Helvetica";
+	left:56px;
+	position: absolute
 }
 
 .coursefont {
 	color: white;
 	font-size: 16px;
 }
+.sectionfont {
+	color: white;
+	font-size: 14px;
+	margin-left: 33px;
+}
 
 .scheduledActive{
     background-color: #7d0022;
 }
 .unscheduledActive {
-    background-color: #9a2a1f;
+    /* background-color: #9a2a1f; */
+    background-color: #991b1e;
 }
 
 .scheduledSectionBar {    
@@ -51,6 +64,19 @@ body {
 .unscheduledSectionBar {
     position: relative;
     margin-top: 1px;
-    background-color: #9a2a1f;
+    background-color: #991b1e;
     border-width: 0px;
+}
+
+.iconcolor {
+	color: white;
+	font-size: 30px;
+}
+.Regiconcolor {
+	color: #81ada1;
+	font-size: 30px;
+}
+.UnRegiconcolor {
+	color: #dd8605;
+	font-size: 30px;
 }

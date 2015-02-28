@@ -106,9 +106,19 @@ angular
 		  runFilter (supersonic, $scope);
 	  });
 	  
-	  
-	  $scope.addCourse = function (course, section) {
-		  
+//	  $scope.flyoutt = function(event) {
+//		  
+//	  }
+	  $scope.addCourse = function (course, section, event) {
+		  $("#flyout").css("left",event.x);
+		  $("#flyout").css("top",event.y);
+		  $("#flyout").show();
+		  var devH = window.screen.height/4;
+		  $("#flyout").animate({
+	            opacity: '0.5',
+	            top: devH,
+	            left: "-200px"
+	        }, "slow");
 		  var interestedCourses = JSON.parse(window.localStorage.getItem('EasyReg.interestedCourses'));
 		  var courseAlreadyExist = false;
 		  
@@ -207,26 +217,38 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 		success(function(data, status, headers, config) {
 			$scope.queriedCourses++;
 			
+			var toBeSkipedSec = 0;
 			$scope.courses[index].sections = [];
 			var sectionsObjects = new Array();
 			var allSections = data.V_SOC_SECTION;
 			for (i = 0; i < allSections.length; i++) {
-				sectionsObjects[i] = {
-						"SECTION_ID" : allSections[i].SECTION_ID,
-						"TYPE" : allSections[i].TYPE, 
-						"BEGIN_TIME" : allSections[i].BEGIN_TIME, 
-						"END_TIME" : allSections[i].END_TIME, 
-						"DAY" : allSections[i].DAY, 
-						"LOCATION" : allSections[i].LOCATION, 
-						"INSTRUCTOR" : allSections[i].INSTRUCTOR, 
-						"SEATS" : allSections[i].SEATS,
-						"isEnabledByDay" : true,
-						"isEnabledByTime" : true,
-		        		"isInterested": false,
-		        		"isScheduled": false,
-		        		"isRegistered": false,
-		        		"isConflicted": false
-				};
+				
+				if (!allSections[i].DAY) {
+					toBeSkipedSec++;
+				} else {
+					sectionsObjects[i-toBeSkipedSec] = {
+							"SECTION_ID" : allSections[i].SECTION_ID,
+							"TYPE" : allSections[i].TYPE, 
+							"BEGIN_TIME" : allSections[i].BEGIN_TIME, 
+							"END_TIME" : allSections[i].END_TIME, 
+							"DAY" : allSections[i].DAY, 
+							"LOCATION" : allSections[i].LOCATION, 
+							"INSTRUCTOR" : allSections[i].INSTRUCTOR, 
+							"SEATS" : allSections[i].SEATS,
+							"isEnabledByDay" : true,
+							"isEnabledByTime" : true,
+			        		"isInterested": false,
+			        		"isScheduled": false,
+			        		"isRegistered": false,
+			        		"isConflicted": false
+					};
+				}
+				
+				// TODO FAKE! Should change based on the number of registered students
+//				var leftPercent = Math.floor((Math.random() * 99) + 1);
+//				var rightPercent = 100 - leftPercent;
+				// usc yellow : #FFCC00
+//				$("#10594").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
 			}
 			$scope.courses[index].sections = sectionsObjects;
 			
@@ -236,6 +258,12 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 			} else {
 //				supersonic.logger.debug("Retrieved: " + $scope.queriedCourses);
 			}
+			
+			var leftPercent = Math.floor((Math.random() * 99) + 1);
+			var rightPercent = 100 - leftPercent;
+			// usc yellow : #FFCC00
+			$(".selectEach").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
+		
 		}).
 		error(function(data, status, headers, config) {
 			supersonic.logger.debug( status );

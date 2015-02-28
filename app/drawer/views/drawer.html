@@ -5,7 +5,7 @@
 
 	<button class="button button-full bkgd" onclick="closeDrawer('select-class')"><img align="left"  src="/img/polygon.svg"><span class="caption1">Select Class</span></button>
 	 
-	<button class="button button-full button-assertive" onclick="closeDrawer('calendar')"><img align="left"  src="/img/polygon.svg">Calendar</button>
+	<button class="button button-full bkgd" onclick="closeDrawer('calendar')"><img align="left"  src="/img/polygon.svg"><span class="caption1">Calendar</span></button>
 	
 	<!-- use <super-navigate> anywhere to navigate to other pages, but it will be another view on top of the view stack-->
 	
@@ -16,21 +16,25 @@
 		<!-- filter:{} will match  -->
 	
 		<div ng-repeat="course in courses">
-			<div class="item item-divider scheduledCourseBar" ng-click="toggleCourse(course)" ng-class="{'scheduledActive': isGroupShown(course)}" ng-if="course.isScheduled === true">
-	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
+			<div class="item item-divider scheduledCourseBar" ng-click="toggleCourse(course)" ng-class="{'scheduledActive': isGroupShown(course)}" ng-if="course.isScheduled === true && course.isRegistered === true">
+	    		<i class="icon Regiconcolor" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
 		  	</div>
-
+			<div class="item item-divider scheduledCourseBar" ng-click="toggleCourse(course)" ng-class="{'scheduledActive': isGroupShown(course)}" ng-if="course.isScheduled === true && course.isRegistered !== true">
+	    		<i class="icon UnRegiconcolor" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
+	    		&nbsp;
+	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
+		  	</div>
 		  	<div class="item item-divider unscheduledCourseBar" ng-click="toggleCourse(course)" ng-class="{'unscheduledActive': isGroupShown(course)}" ng-if="course.isScheduled !== true">
-	    		<i class="icon" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
+	    		<i class="icon iconcolor" ng-class="isGroupShown(course) ? 'super-arrow-down-b' : 'super-arrow-right-b'"></i>
 	    		&nbsp;
 	    		<span class="coursefont">{{course.SIS_COURSE_ID}} {{course.TITLE}}</span>
 		  	</div>
 		  	<!-- TODO onclick => add to drawer -->
 		  	<div ng-repeat="section in course.sections" ng-show="isGroupShown(course)">
                 <a class="selectEach item" ng-class="section.isScheduled ? 'scheduledSectionBar' : 'unscheduledSectionBar'" ng-click="setScheduled(course, section)">
-                    {{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}} {{section.DAY}}
+                    <span class="sectionfont">{{section.TYPE}} {{section.BEGIN_TIME}}-{{section.END_TIME}}  {{section.DAY}}</span>
                 </a>
 		  	</div>
   		</div>

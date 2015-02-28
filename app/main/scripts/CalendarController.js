@@ -80,7 +80,7 @@ angular
 						  var s = sections[sec];
 						  if (s.isRegistered) {
 							  for(var i =0; i< s.DAY.length; i=i+1){
-								  displayCalender(c,s,i,"green");
+								  displayCalender(c,s,i,"#6E8683");
 							  }
 							  
 							// get start time, end time, title
@@ -97,11 +97,11 @@ angular
 					  for (var sec in sections) {
 						  var s = sections[sec];
 						  if (s.isScheduled) {
-							  for(var i =0; i< s.DAY.length; i=i+1){    
+							  for(var i =0; i< s.DAY.length; i=i+1){
                                   //if(s.isConflicted){
                                   //  displayCalender(c,s,i,"red");
                                   //}else{
-								    displayCalender(c,s,i,"yellow");
+								  displayCalender(c,s,i,"#DD8B12");
                                   //}
 							  }
 							  // get start time, end time, title
@@ -243,6 +243,9 @@ function hideAreas () {
  * Only need to add droppable to three buttons (or areas): Register, Delete, UnSchedule.  
  * @param div: the div that when DRAGGED will activate the "areaActive" class
  */
+
+var hoverYellow = "#E1E1DF";
+
 function addDroppable (div) {
 	var acceptDiv = ".fc-event";
 	// TODO Register button
@@ -254,22 +257,20 @@ function addDroppable (div) {
             
 			// change event view
 			var calEvent = $("#calendar").fullCalendar( 'clientEvents', secId )[0];
-            //var theSection = getSection(secId);
-            //if(!theSection.isConflicted){
-                calEvent.color = "green";
-            //}
-            
+
+			calEvent.color = "#75AD9E";
+
 			$("#calendar").fullCalendar( 'updateEvent', calEvent);
 			
 			// change data
 			scheduleCourse (secId);
-			$( this ).css("background-color", "yellow");
+			$( this ).css("background-color", hoverYellow);
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
 		},
 		out: function( event, ui ) {
-			$( this ).css("background-color", "yellow");
+			$( this ).css("background-color", hoverYellow);
 		}
 
 	});
@@ -287,21 +288,21 @@ function addDroppable (div) {
 			$("#calendar").fullCalendar( 'removeEvents', secId );
 			// delete course in backend and setItem
 			deleteCourse(secId);
-			$( this ).css("background-color", "yellow");
-            
+
+			$( this ).css("background-color", hoverYellow);
+
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
 		},
 		out: function( event, ui ) {
-			$( this ).css("background-color", "yellow");
+			$( this ).css("background-color", hoverYellow);
 		}
 	});
 	
 	// Remove from calendar button
 	$("#bacArea").droppable({
 		accept: acceptDiv,
-//		activeClass: "areaActive",
 		hoverClass: "areaHover",
 		drop: function( event, ui ) {
 			var secId = findSecId (ui); 
@@ -312,14 +313,15 @@ function addDroppable (div) {
 			$("#calendar").fullCalendar( 'removeEvents', secId );
 			// modify course in backend and setItem
 			unscheduleCourse(secId);
-			$( this ).css("background-color", "yellow");
-            
+
+			$( this ).css("background-color", hoverYellow);
+
 		},
 		over: function( event, ui ) {
 			$( this ).css("background-color", "red");
 		},
 		out: function( event, ui ) {
-			$( this ).css("background-color", "yellow");
+			$( this ).css("background-color", hoverYellow);
 		}
 	});
 }
@@ -387,6 +389,15 @@ function deleteCourse (secId) {
 }
 
 function initAreas () {
+	var regIconW = 95;
+	var regIconH = 136;
+	var binIconW = 95;
+	var binIconH = 160;
+	var bacIconW = 79;
+	var bacIconH = 42;
+	
+	
+	
 	var iconHeight = 26;
 	var iconWidth = 26;
 	var ic = 13;
@@ -405,8 +416,8 @@ function initAreas () {
 	$("#regArea").css("left", regL);
 	
 
-	$("#regArea img").css("top", regH/2 - ic);
-	$("#regArea img").css("left", regW/2 - ic);
+	$("#regArea img").css("top", regH/2 - regIconH/2);
+	$("#regArea img").css("left", regW/2 - regIconW/2);
 	
 	// init Delete Area => #delArea
 	var delW=devW*1/2; 
@@ -419,8 +430,8 @@ function initAreas () {
 	$("#delArea").css("top", delT);
 	$("#delArea").css("left", delL);
 	
-	$("#delArea img").css("top", delH/2 - ic);
-	$("#delArea img").css("left", delW/2 - ic);
+	$("#delArea img").css("top", delH/2 - binIconH/2);
+	$("#delArea img").css("left", delW/2 - binIconW/2);
 	
 	// init Back Area => #bacArea
 	var bacW=devW*1/4; 
@@ -433,8 +444,8 @@ function initAreas () {
 	$("#bacArea").css("top", bacT);
 	$("#bacArea").css("left", bacL);
 	
-	$("#bacArea img").css("top", bacH/2 - ic);
-	$("#bacArea img").css("left", bacW/2 - ic);
+	$("#bacArea img").css("top", bacH/2 - bacIconH/2);
+	$("#bacArea img").css("left", bacW/2 - bacIconW/2);
 }
 
 
