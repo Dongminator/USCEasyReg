@@ -10,6 +10,13 @@
 	
 }
 
+.courseCode {
+	color: #991B1E;
+}
+.courseTitle {
+	color: black;
+}
+
 
 .inlineDisplay {
 	display: inline-block;
@@ -30,8 +37,7 @@
 .selectEach {
 	position: relative;
     border-style: solid;
-    border-color: #F00;
-    background: linear-gradient(to right, #F00 40%, #FFF 40%);
+    border-color: #EEC9B7;
     margin-bottom: 2px;
 }
 
