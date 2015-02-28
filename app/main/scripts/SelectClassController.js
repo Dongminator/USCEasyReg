@@ -217,26 +217,32 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 		success(function(data, status, headers, config) {
 			$scope.queriedCourses++;
 			
+			var toBeSkipedSec = 0;
 			$scope.courses[index].sections = [];
 			var sectionsObjects = new Array();
 			var allSections = data.V_SOC_SECTION;
 			for (i = 0; i < allSections.length; i++) {
-				sectionsObjects[i] = {
-						"SECTION_ID" : allSections[i].SECTION_ID,
-						"TYPE" : allSections[i].TYPE, 
-						"BEGIN_TIME" : allSections[i].BEGIN_TIME, 
-						"END_TIME" : allSections[i].END_TIME, 
-						"DAY" : allSections[i].DAY, 
-						"LOCATION" : allSections[i].LOCATION, 
-						"INSTRUCTOR" : allSections[i].INSTRUCTOR, 
-						"SEATS" : allSections[i].SEATS,
-						"isEnabledByDay" : true,
-						"isEnabledByTime" : true,
-		        		"isInterested": false,
-		        		"isScheduled": false,
-		        		"isRegistered": false,
-		        		"isConflicted": false
-				};
+				
+				if (!allSections[i].DAY) {
+					toBeSkipedSec++;
+				} else {
+					sectionsObjects[i-toBeSkipedSec] = {
+							"SECTION_ID" : allSections[i].SECTION_ID,
+							"TYPE" : allSections[i].TYPE, 
+							"BEGIN_TIME" : allSections[i].BEGIN_TIME, 
+							"END_TIME" : allSections[i].END_TIME, 
+							"DAY" : allSections[i].DAY, 
+							"LOCATION" : allSections[i].LOCATION, 
+							"INSTRUCTOR" : allSections[i].INSTRUCTOR, 
+							"SEATS" : allSections[i].SEATS,
+							"isEnabledByDay" : true,
+							"isEnabledByTime" : true,
+			        		"isInterested": false,
+			        		"isScheduled": false,
+			        		"isRegistered": false,
+			        		"isConflicted": false
+					};
+				}
 				
 				// TODO FAKE! Should change based on the number of registered students
 //				var leftPercent = Math.floor((Math.random() * 99) + 1);
