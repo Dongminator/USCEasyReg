@@ -352,19 +352,33 @@ function filterDay (supersonic, $scope) {
 		outerLoop:
 			for (var s in sections) {
 				for (var d in notSelectedDays) {
-					if (sections[s]["DAY"] === notSelectedDays[d]) {
+					//if (sections[s]["DAY"] === notSelectedDays[d]) {
+					if (sections[s]["DAY"].indexOf(notSelectedDays[d])>-1) {
 						sections[s].isEnabledByDay = false;
 						disableCtr++;
 						continue outerLoop;
 					}
-				}      
+				}
+				var len = 0;
 				for (var d in selectedDays) {
-					if (sections[s]["DAY"] === selectedDays[d]) {
-						sections[s].isEnabledByDay = true;
-						enableCtr++;
-						continue outerLoop;
+					if (sections[s]["DAY"].indexOf(selectedDays[d])>-1) {
+						len = len + 1;
+						
 					}
 				}
+				if(len === sections[s]["DAY"].length){
+					sections[s].isEnabledByDay = true;
+					enableCtr++;
+					continue outerLoop;
+				}
+				
+//				for (var d in selectedDays) {
+//					if (sections[s]["DAY"] === selectedDays[d]) {
+//						sections[s].isEnabledByDay = true;
+//						enableCtr++;
+//						continue outerLoop;
+//					}
+//				}
 			}
 
 		if (disableCtr == sections.length) {
