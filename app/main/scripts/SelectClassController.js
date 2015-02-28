@@ -237,6 +237,12 @@ function selectSections (supersonic, $scope, $http, index, courseId) {
 		        		"isRegistered": false,
 		        		"isConflicted": false
 				};
+				
+				// TODO FAKE! Should change based on the number of registered students
+				var leftPercent = Math.floor((Math.random() * 99) + 1);
+				var rightPercent = 100 - leftPercent;
+				// usc yellow : #FFCC00
+				$("#10594").css("background", "linear-gradient(to right, #EEC9B7 "+leftPercent+"%, #FFF "+rightPercent+"%)");
 			}
 			$scope.courses[index].sections = sectionsObjects;
 			

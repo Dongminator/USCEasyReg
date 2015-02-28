@@ -58,6 +58,13 @@ angular
         for(var s in sectionList){
             supersonic.logger.debug(sectionList[s].SECTION_ID+": "+sectionList[s].isScheduled);
         }
+        
+        // Broadcast a message to all other views.
+        var message = {
+        		  sender: "drawer#drawer",
+        		  contet: "refresh"
+        };
+        supersonic.data.channel('public_announcements').publish(message);
     };
     
     
