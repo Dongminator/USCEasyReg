@@ -1,10 +1,10 @@
-
 <div ng-controller="pOneController">
-	<a class="item item-icon-right" ng-click="navigate('three')">
-		Next
-		<i class="icon icon-accessory super-chevron-right"></i>
-	</a>
-	    
+	<super-navbar>
+		<super-navbar-button ng-click="navigate('three')" side="right">
+			Next
+		</super-navbar-button>
+	</super-navbar>
+
 	<div class="item item-image tutorialImg">
 		<img src="/tutorialImg/twoDrawer.png">
 	</div>

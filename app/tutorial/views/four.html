@@ -1,9 +1,9 @@
-
 <div ng-controller="pOneController">
-	<a class="item item-icon-right" ng-click="navigateHome('select-class')">
-		Next
-		<i class="icon icon-accessory super-chevron-right"></i>
-	</a>
+	<super-navbar>
+		<super-navbar-button ng-click="navigateHome('select-class')" side="right">
+			Done
+		</super-navbar-button>
+	</super-navbar>
 	    
 	<div class="item item-image tutorialImg">
 		<img src="/tutorialImg/fourDone.png">

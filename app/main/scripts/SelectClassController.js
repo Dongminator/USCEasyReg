@@ -99,6 +99,7 @@ angular
 	  }
 	  
 	  supersonic.ui.views.current.whenVisible(function() {
+		  supersonic.ui.navigationBar.hide();
 		  supersonic.logger.debug("select-class is now visible");
 		  runFilter (supersonic, $scope);
 	  });
