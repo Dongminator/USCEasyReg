@@ -442,25 +442,25 @@ function getStartDateTime(day, time, i) {
 	switch(day[i]) {
     case "M":
         day = "Monday";
-        return "2015-02-23T" + time + ":00";
+        return "2015-03-02T" + time + ":00";
     case "T":
         day = "Tuesday";
-        return "2015-02-24T" + time + ":00";
+        return "2015-03-03T" + time + ":00";
     case "W":
         day = "Wednesday";
-        return "2015-02-25T" + time + ":00";
+        return "2015-03-04T" + time + ":00";
     case "H":
         day = "Thursday";
-        return "2015-02-26T" + time + ":00";
+        return "2015-03-05T" + time + ":00";
     case "F":
         day = "Friday";
-        return "2015-02-27T" + time + ":00";
+        return "2015-03-06T" + time + ":00";
     case "S":
         day = "Saturday";
-        return "2015-02-28T" + time + ":00";
+        return "2015-03-07T" + time + ":00";
 	default:
         day = "Sunday";
-        return "2015-03-01T" + time + ":00";
+        return "2015-03-08T" + time + ":00";
 	}
 }
 

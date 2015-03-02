@@ -7,5 +7,11 @@ app.controller('SelectDaysController', function($scope, supersonic, $http) {
 	  $scope.update = function () {
 		  window.localStorage.setItem('EasyReg.SelectDaysControllers.days', JSON.stringify($scope.days));
 	  };
+	  
+	  
+	  supersonic.ui.views.current.whenVisible( function() {
+
+		  supersonic.ui.navigationBar.show();
+		});
 });
 

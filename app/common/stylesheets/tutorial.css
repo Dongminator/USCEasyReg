@@ -9,3 +9,7 @@ body {
 .card {
 	padding: 0px, 0px, 0px, 0px;
 }
+
+.tutorialImg {
+	magin-top: -15px;
+}

@@ -32,6 +32,22 @@ module.exports =
       id: "select-days"
       location: "main#select-days"
     }
+    {
+      id: "one"
+      location: "tutorial#one"
+    }
+    {
+      id: "two"
+      location: "tutorial#two"
+    }
+    {
+      id: "three"
+      location: "tutorial#three"
+    }
+    {
+      id: "four"
+      location: "tutorial#four"
+    }
   ]
   
   drawers:
