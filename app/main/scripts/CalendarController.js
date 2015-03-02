@@ -378,20 +378,31 @@ function deleteCourse (secId) {
 }
 
 function initAreas () {
-	var regIconW = 95;
-	var regIconH = 136;
-	var binIconW = 95;
-	var binIconH = 160;
-	var bacIconW = 79;
-	var bacIconH = 42;
+	// device height = 667* 375
+	var devW = window.screen.width;
+	var devH = window.screen.height;
 	
+	var regIconWidth = 95;
+	var regIconW = devW*regIconWidth/375;
+	var regIconHeight = 136;
+	var regIconH = devH*regIconHeight/667;
+	
+	var binIconWidth = 95;
+	var binIconW = devW*binIconWidth/375;
+	var binIconHeight = 160;
+	var binIconH = devH*binIconHeight/667;
+	
+	
+	var bacIconWidth = 79;
+	var bacIconW = devW*bacIconWidth/375;
+	var bacIconHeight = 42;
+	var bacIconH = devH*bacIconHeight/667;
 	
 	
 	var iconHeight = 26;
 	var iconWidth = 26;
 	var ic = 13;
-	var devW = window.screen.width;
-	var devH = window.screen.height;
+	
 	
 	// init Register Area => #regArea
 	var regW=devW*1/2; 
@@ -407,6 +418,8 @@ function initAreas () {
 
 	$("#regArea img").css("top", regH/2 - regIconH/2);
 	$("#regArea img").css("left", regW/2 - regIconW/2);
+	$("#regArea img").css("height", regIconH);
+	$("#regArea img").css("width", "auto");
 	
 	// init Delete Area => #delArea
 	var delW=devW*1/2; 
@@ -421,6 +434,8 @@ function initAreas () {
 	
 	$("#delArea img").css("top", delH/2 - binIconH/2);
 	$("#delArea img").css("left", delW/2 - binIconW/2);
+	$("#delArea img").css("height", binIconH);
+	$("#delArea img").css("width", "auto");
 	
 	// init Back Area => #bacArea
 	var bacW=devW*1/4; 
@@ -435,6 +450,8 @@ function initAreas () {
 	
 	$("#bacArea img").css("top", bacH/2 - bacIconH/2);
 	$("#bacArea img").css("left", bacW/2 - bacIconW/2);
+	$("#bacArea img").css("height", bacIconH);
+	$("#bacArea img").css("width", "auto");
 }
 
 
