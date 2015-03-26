@@ -104,9 +104,6 @@ angular
 		  runFilter (supersonic, $scope);
 	  });
 	  
-//	  $scope.flyoutt = function(event) {
-//		  
-//	  }
 	  $scope.addCourse = function (course, section, event) {
 		  $("#flyout").css("left",event.x);
 		  $("#flyout").css("top",event.y);
@@ -557,13 +554,9 @@ function filterUnit (supersonic, $scope) {
     }
 }
 
-
-
-
-
-
-
-
+/*
+ * USC Schools data. Moved from Database to this file to reduce API access and time. 
+ */
 var allSchools = [
                   {
                 	  "id": "ACAD",
